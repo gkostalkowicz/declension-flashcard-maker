@@ -4,10 +4,11 @@ import com.fasterxml.jackson.databind.MappingIterator
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvSchema
 import com.gk.dfm.domain.object.noun.Gender
-import com.gk.dfm.domain.object.noun.GermanNoun
 import com.gk.dfm.domain.object.noun.Noun
-import com.gk.dfm.domain.object.noun.PolishNoun
+import com.gk.dfm.domain.object.noun.german.GermanNoun
+import com.gk.dfm.domain.object.noun.polish.PolishNoun
 import com.gk.dfm.domain.verb.ObjectClass
+import com.gk.dfm.repository.NounDeclensionRepository
 
 import java.util.regex.Pattern
 
@@ -25,7 +26,13 @@ class NounListReader {
     private static final char INPUT_COLUMN_SEPARATOR = "\t"
     private static final String GERMAN_NOUN_PATTERN = "(der|die|das) ([A-Za-z-]+).*"
 
-    static List<Noun> readNouns(String filename) {
+    private NounDeclensionRepository nounDeclensionRepository
+
+    NounListReader(NounDeclensionRepository nounDeclensionRepository) {
+        this.nounDeclensionRepository = nounDeclensionRepository
+    }
+
+    List<Noun> readNouns(String filename) {
         File csvFile = new File(filename)
 
         CsvSchema schema = CsvSchema.builder()
@@ -48,7 +55,7 @@ class NounListReader {
         return nouns
     }
 
-    private static Optional<Noun> parseNoun(String polishColumn, String germanColumn, String tagsColumn) {
+    private Optional<Noun> parseNoun(String polishColumn, String germanColumn, String tagsColumn) {
         if (!tagsColumn.contains(NOUN_TAG)) {
             return Optional.empty()
         }
@@ -61,6 +68,7 @@ class NounListReader {
         }
         def germanNounString = germanNounMatcher.group(2)
         def article = germanNounMatcher.group(1)
+        def gender = getGenderFromArticle(article)
 
         def objectClass = getObjectClassFromTagsColumn(tagsColumn)
         if (!objectClass.present) {
@@ -69,7 +77,8 @@ class NounListReader {
 
         def polishNoun = new PolishNoun(noun: polishColumn)
         def germanNoun = new GermanNoun(noun: germanNounString,
-                gender: getGenderFromArticle(article))
+                gender: gender,
+                declension: nounDeclensionRepository.getDeclension(gender, germanNounString))
         def noun = new Noun(polishNoun: polishNoun,
                 germanNoun: germanNoun,
                 objectClass: objectClass.get())

@@ -1,4 +1,4 @@
-package com.gk.dfm.domain.object.noun
+package com.gk.dfm.domain.object.noun.polish
 
 import com.gk.dfm.domain.object.PolishObject
 

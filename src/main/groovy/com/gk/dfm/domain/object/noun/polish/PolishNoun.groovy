@@ -1,7 +1,4 @@
-package com.gk.dfm.domain.object.noun
-
-import com.gk.dfm.domain.object.PolishObject
-
+package com.gk.dfm.domain.object.noun.polish
 /**
  * Created by Mr. President on 6/19/2016.
  */

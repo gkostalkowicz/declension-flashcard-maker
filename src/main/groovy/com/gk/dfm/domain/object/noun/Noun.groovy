@@ -1,8 +1,7 @@
 package com.gk.dfm.domain.object.noun
 
-import com.gk.dfm.domain.object.GermanObject
-import com.gk.dfm.domain.object.PolishObject
-import com.gk.dfm.domain.object.SentenceObject
+import com.gk.dfm.domain.object.noun.german.GermanNoun
+import com.gk.dfm.domain.object.noun.polish.PolishNoun
 import com.gk.dfm.domain.verb.ObjectClass
 
 /**

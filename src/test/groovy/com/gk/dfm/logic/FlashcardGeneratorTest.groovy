@@ -2,6 +2,9 @@ package com.gk.dfm.logic
 
 import com.gk.dfm.domain.Case
 import com.gk.dfm.domain.object.noun.*
+import com.gk.dfm.domain.object.noun.german.GermanNoun
+import com.gk.dfm.domain.object.noun.german.NounDeclension
+import com.gk.dfm.domain.object.noun.polish.PolishNoun
 import com.gk.dfm.domain.subject.Subject
 import com.gk.dfm.domain.verb.*
 import org.junit.Test
@@ -34,6 +37,8 @@ class FlashcardGeneratorTest {
                 )
         )
 
+        def nounDeclension = new NounDeclension()
+        nounDeclension.put(ObjectNumber.SINGULAR, Case.ACCUSATIVE, "Hund")
         def object = new NounObject(
                 new Noun(
                         polishNoun: new PolishNoun(
@@ -41,7 +46,8 @@ class FlashcardGeneratorTest {
                         ),
                         germanNoun: new GermanNoun(
                                 noun: "Hund",
-                                gender: Gender.MASCULINE
+                                gender: Gender.MASCULINE,
+                                declension: nounDeclension
                         ),
                         objectClass: ObjectClass.PERSON
                 ),

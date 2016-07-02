@@ -1,18 +1,10 @@
 package com.gk.dfm.domain.verb
 
-import com.gk.dfm.domain.subject.Subject
 import com.gk.dfm.domain.object.SentenceObject
+import com.gk.dfm.domain.subject.Subject
 import groovy.transform.ToString
 
-import static Subject.FEMININE_SINGULAR_3RD
-import static Subject.FORMAL_2ND
-import static Subject.MASCULINE_SINGULAR_3RD
-import static Subject.NEUTER_SINGULAR_3RD
-import static Subject.PLURAL_1ST
-import static Subject.PLURAL_2ND
-import static Subject.PLURAL_3RD
-import static Subject.SINGULAR_1ST
-import static Subject.SINGULAR_2ND
+import static com.gk.dfm.domain.subject.Subject.*
 
 /**
  * Created by Mr. President on 6/12/2016.
@@ -44,7 +36,8 @@ class GermanVerb {
         def sentence = new StringBuffer()
         sentence.append(subjectString)
         sentence.append(" ")
-        sentence.append(verbInfinitive)
+        def conjugatedVerb = verbInfinitive // TODO VerbConjugationRepository.instance.conjugateVerb(verbInfinitive, subject.toPerson())
+        sentence.append(conjugatedVerb)
         if (infix != null) {
             sentence.append(" ")
             sentence.append(infix)

@@ -1,10 +1,10 @@
 package com.gk.dfm.domain.verb
 
-import com.gk.dfm.domain.subject.Subject
 import com.gk.dfm.domain.object.SentenceObject
+import com.gk.dfm.domain.subject.Subject
 import groovy.transform.ToString
 
-import static Subject.*
+import static com.gk.dfm.domain.subject.Subject.*
 
 /**
  * Created by Mr. President on 6/12/2016.
