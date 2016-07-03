@@ -1,6 +1,6 @@
 package com.gk.dfm.domain.subject
 
-import com.gk.dfm.domain.verb.german.ConjugationPerson
+import com.gk.dfm.domain.verb.german.conjugation.ConjugationPerson
 
 /**
  * Created by Mr. President on 6/19/2016.

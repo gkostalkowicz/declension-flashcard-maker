@@ -2,6 +2,7 @@ package com.gk.dfm.domain.verb.german
 
 import com.gk.dfm.domain.object.SentenceObject
 import com.gk.dfm.domain.subject.Subject
+import com.gk.dfm.domain.verb.german.conjugation.VerbConjugation
 import com.gk.dfm.domain.verb.german.objects.GermanDeclensionTemplate
 import com.gk.dfm.domain.verb.german.objects.ObjectPlaceholder
 import groovy.transform.ToString
@@ -29,22 +30,28 @@ class GermanVerb {
     String verbInfinitive
     String infix
     GermanDeclensionTemplate declensionTemplate
+    VerbConjugation conjugation
 
     String createSentence(Subject subject, Map<ObjectPlaceholder, SentenceObject> objectByPlaceholder) {
         def subjectString = GERMAN_SUBJECT[subject]
         def declinedObjects = declensionTemplate.declineTemplate(objectByPlaceholder)
 
+        def conjugatedVerb = conjugation.get(subject.toConjugationPerson())
+
         def sentence = new StringBuffer()
         sentence.append(subjectString)
         sentence.append(" ")
-        def conjugatedVerb = verbInfinitive // TODO VerbConjugationRepository.instance.conjugateVerb(verbInfinitive, subject.toPerson())
-        sentence.append(conjugatedVerb)
+        sentence.append(conjugatedVerb.coreVerb)
         if (infix != null) {
             sentence.append(" ")
             sentence.append(infix)
         }
         sentence.append(" ")
         sentence.append(declinedObjects)
+        if (conjugatedVerb.particle != null) {
+            sentence.append(" ")
+            sentence.append(conjugatedVerb.particle)
+        }
         return sentence.toString()
     }
 

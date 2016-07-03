@@ -5,6 +5,7 @@ import com.gk.dfm.input.VerbListReader
 import com.gk.dfm.logic.FlashcardGenerator
 import com.gk.dfm.logic.RandomWordSource
 import com.gk.dfm.repository.NounDeclensionRepository
+import com.gk.dfm.repository.VerbConjugationRepository
 
 /**
  * Created by Mr. President on 6/12/2016.
@@ -23,10 +24,11 @@ class DeclensionFlashcardMaker {
         def verbRepositoryFilename = args[2]
         def nounRepositoryFilename = args[3]
 
+        def verbConjugationRepository = new VerbConjugationRepository(verbRepositoryFilename)
         def nounDeclensionRepository = new NounDeclensionRepository(nounRepositoryFilename)
         try {
             def randomWordSource = new RandomWordSource()
-            def verbListReader = new VerbListReader()
+            def verbListReader = new VerbListReader(verbConjugationRepository)
             def nounListReader = new NounListReader(nounDeclensionRepository)
 
             randomWordSource.setVerbs(verbListReader.readVerbs(verbsFilename))
@@ -38,6 +40,7 @@ class DeclensionFlashcardMaker {
                 println flashcardGenerator.generateFlashcard()
             }
         } finally {
+            verbConjugationRepository.close()
             nounDeclensionRepository.close()
         }
     }

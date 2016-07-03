@@ -6,6 +6,7 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema
 import com.gk.dfm.domain.verb.Verb
 import com.gk.dfm.domain.verb.german.GermanVerb
 import com.gk.dfm.domain.verb.polish.PolishVerb
+import com.gk.dfm.repository.VerbConjugationRepository
 
 /**
  * Created by Mr. President on 6/19/2016.
@@ -18,7 +19,12 @@ class VerbListReader {
     private static final String DE_DECLENSION_TEMPLATE = "de declension template"
     private static final char INPUT_COLUMN_SEPARATOR = "\t"
 
-    GermanDeclensionTemplateParser germanDeclensionTemplateParser = new GermanDeclensionTemplateParser()
+    private VerbConjugationRepository verbConjugationRepository
+    private GermanDeclensionTemplateParser germanDeclensionTemplateParser = new GermanDeclensionTemplateParser()
+
+    VerbListReader(VerbConjugationRepository verbConjugationRepository) {
+        this.verbConjugationRepository = verbConjugationRepository
+    }
 
     List<Verb> readVerbs(String filename) {
         File csvFile = new File(filename)
@@ -38,14 +44,17 @@ class VerbListReader {
                 continue
             }
 
+            def infinitive = row[DE_VERB_INFINITIVE].trim()
+
             PolishVerb polishVerb = new PolishVerb(
                     expressionOutline: row[PL_EXPRESSION_OUTLINE]
             )
             GermanVerb germanVerb = new GermanVerb(
-                    verbInfinitive: row[DE_VERB_INFINITIVE].trim(),
+                    verbInfinitive: infinitive,
                     infix: columnOrNull(row[DE_INFIX]),
                     declensionTemplate:
-                            germanDeclensionTemplateParser.parseGermanDeclensionTemplate(row[DE_DECLENSION_TEMPLATE])
+                            germanDeclensionTemplateParser.parseGermanDeclensionTemplate(row[DE_DECLENSION_TEMPLATE]),
+                    conjugation: verbConjugationRepository.conjugateVerb(infinitive)
             )
             Verb verb = new Verb(
                     polishVerb: polishVerb,

@@ -11,7 +11,7 @@ import org.junit.Test
 class NounDeclensionFetcherTest {
 
     @Test
-    void "given a noun and gender when fetchDeclensionMap then fetch correct declension map"() {
+    void "given a noun and gender when fetchDeclensionMap then fetch correct declension"() {
         given:
         def noun = "Tag"
         def gender = Gender.MASCULINE

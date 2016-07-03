@@ -12,13 +12,13 @@ import com.gk.dfm.repository.impl.NounDeclensionSetSerializer
 class NounDeclensionRepository implements AutoCloseable {
 
     private NounDeclensionFetcher nounDeclensionFetcher = new NounDeclensionFetcher()
-    private NounDeclensionSetSerializer nounDeclensionSerializer
+    private NounDeclensionSetSerializer nounDeclensionSetSerializer
 
     private NounDeclensionSet declensionSet
 
     NounDeclensionRepository(String filename) {
-        nounDeclensionSerializer = new NounDeclensionSetSerializer(filename)
-        declensionSet = nounDeclensionSerializer.loadDeclensionSet()
+        nounDeclensionSetSerializer = new NounDeclensionSetSerializer(filename)
+        declensionSet = nounDeclensionSetSerializer.loadDeclensionSet()
     }
 
     NounDeclension getDeclension(Gender gender, String noun) {
@@ -28,7 +28,8 @@ class NounDeclensionRepository implements AutoCloseable {
         return declensionSet.declensions.get(gender, noun)
     }
 
+    @Override
     void close() throws Exception {
-        nounDeclensionSerializer.saveDeclensionSet(declensionSet)
+        nounDeclensionSetSerializer.saveDeclensionSet(declensionSet)
     }
 }

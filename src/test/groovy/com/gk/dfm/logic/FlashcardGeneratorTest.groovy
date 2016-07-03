@@ -12,6 +12,9 @@ import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
 import com.gk.dfm.domain.subject.Subject
 import com.gk.dfm.domain.verb.Verb
 import com.gk.dfm.domain.verb.german.GermanVerb
+import com.gk.dfm.domain.verb.german.conjugation.ConjugatedVerb
+import com.gk.dfm.domain.verb.german.conjugation.ConjugationPerson
+import com.gk.dfm.domain.verb.german.conjugation.VerbConjugation
 import com.gk.dfm.domain.verb.german.objects.Case
 import com.gk.dfm.domain.verb.german.objects.GermanDeclensionTemplate
 import com.gk.dfm.domain.verb.german.objects.ObjectDefinition
@@ -29,6 +32,8 @@ class FlashcardGeneratorTest {
         given:
         def subject = Subject.SINGULAR_1ST
 
+        def verbConjugation = new VerbConjugation()
+        verbConjugation.put(ConjugationPerson.SINGULAR_1ST, new ConjugatedVerb(coreVerb: "habe"))
         def verb = new Verb(
                 polishVerb: new PolishVerb(
                         expressionOutline: "miec (co? X)"
@@ -42,7 +47,8 @@ class FlashcardGeneratorTest {
                                         objectCase: Case.ACCUSATIVE,
                                         objectClass: ObjectClass.ANYTHING
                                 )]
-                        )
+                        ),
+                        conjugation: verbConjugation
                 )
         )
 
@@ -76,7 +82,7 @@ class FlashcardGeneratorTest {
         def flashcard = flashcardGenerator.generateFlashcard()
 
         then:
-        assert flashcard == "ja, miec (co? pies)" + "\t" + "ich haben den Hund"
+        assert flashcard == "ja, miec (co? pies)" + "\t" + "ich habe den Hund"
     }
 
 }

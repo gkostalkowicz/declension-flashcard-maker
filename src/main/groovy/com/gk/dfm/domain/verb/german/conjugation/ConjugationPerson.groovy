@@ -1,4 +1,4 @@
-package com.gk.dfm.domain.verb.german
+package com.gk.dfm.domain.verb.german.conjugation
 
 /**
  * Created by Mr. President on 6/30/2016.
