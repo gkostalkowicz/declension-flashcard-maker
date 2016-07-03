@@ -15,7 +15,7 @@ import static com.gk.dfm.domain.verb.german.conjugation.ConjugationPerson.*
  */
 class VerbConjugationFetcher {
 
-    private static final Logger log = LoggerFactory.getLogger(getClass())
+    private static final Logger log = LoggerFactory.getLogger(VerbConjugationFetcher)
 
     private static final int TABLE_IDX = 0
     private static final int HEADING_ROW_IDX = 0

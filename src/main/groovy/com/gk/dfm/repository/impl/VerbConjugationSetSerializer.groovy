@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
  */
 class VerbConjugationSetSerializer {
 
-    private static final Logger log = LoggerFactory.getLogger(getClass())
+    private static final Logger log = LoggerFactory.getLogger(VerbConjugationSetSerializer)
 
     private File repositoryFile
     private ObjectMapper mapper

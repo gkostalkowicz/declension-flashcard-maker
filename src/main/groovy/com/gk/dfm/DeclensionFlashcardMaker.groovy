@@ -12,7 +12,7 @@ import com.gk.dfm.repository.VerbConjugationRepository
  */
 class DeclensionFlashcardMaker {
 
-    private static final FLASHCARDS = 5
+    private static final FLASHCARD_CNT = 5
 
     static void main(String[] args) {
         new DeclensionFlashcardMaker(args)
@@ -36,7 +36,7 @@ class DeclensionFlashcardMaker {
 
             def flashcardGenerator = new FlashcardGenerator(randomWordSource: randomWordSource)
 
-            for (int i = 0; i < FLASHCARDS; i++) {
+            for (int i = 0; i < FLASHCARD_CNT; i++) {
                 println flashcardGenerator.generateFlashcard()
             }
         } finally {

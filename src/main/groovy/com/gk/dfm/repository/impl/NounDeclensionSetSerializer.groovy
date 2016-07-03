@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
  */
 class NounDeclensionSetSerializer {
 
-    private static final Logger log = LoggerFactory.getLogger(getClass())
+    private static final Logger log = LoggerFactory.getLogger(NounDeclensionSetSerializer)
 
     private File repositoryFile
     private ObjectMapper mapper

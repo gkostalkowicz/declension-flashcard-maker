@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory
  */
 class NounDeclensionFetcher {
 
-    private static final Logger log = LoggerFactory.getLogger(getClass())
+    private static final Logger log = LoggerFactory.getLogger(NounDeclensionFetcher)
 
     private static final int EXPECTED_TABLE_CNT = 1
     private static final int TABLE_IDX = 0

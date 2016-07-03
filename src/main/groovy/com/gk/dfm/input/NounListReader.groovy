@@ -9,6 +9,8 @@ import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.GermanNoun
 import com.gk.dfm.domain.object.noun.polish.PolishNoun
 import com.gk.dfm.repository.NounDeclensionRepository
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import java.util.regex.Pattern
 
@@ -16,6 +18,8 @@ import java.util.regex.Pattern
  * Created by Mr. President on 6/19/2016.
  */
 class NounListReader {
+
+    private static final Logger log = LoggerFactory.getLogger(NounListReader)
 
     private static final String POLISH = "polish"
     private static final String GERMAN = "german"
@@ -63,7 +67,7 @@ class NounListReader {
         def germanNounPattern = Pattern.compile(GERMAN_NOUN_PATTERN)
         def germanNounMatcher = germanNounPattern.matcher(germanColumn)
         if (!germanNounMatcher.matches()) {
-            System.err.println("Warning: Couldn't parse German noun '$germanColumn'")
+            log.warn("Couldn't parse German noun '{}'", germanColumn)
             return Optional.empty()
         }
         def germanNounString = germanNounMatcher.group(2)
@@ -105,7 +109,7 @@ class NounListReader {
         } else if (tagsColumn.contains(THING_TAG)) {
             return Optional.of(ObjectClass.THING)
         } else {
-            System.err.println("Warning: Can't determine object class from tags: '$tagsColumn'")
+            log.warn("Can't determine object class from tags '{}'", tagsColumn)
             return Optional.empty()
         }
     }
