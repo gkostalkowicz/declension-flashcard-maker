@@ -1,4 +1,4 @@
-package com.gk.dfm.domain.verb
+package com.gk.dfm.domain.object
 
 /**
  * Created by Mr. President on 6/19/2016.

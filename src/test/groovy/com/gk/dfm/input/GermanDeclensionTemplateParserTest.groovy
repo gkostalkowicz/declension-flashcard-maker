@@ -1,9 +1,8 @@
 package com.gk.dfm.input
 
-import com.gk.dfm.domain.Case
-import com.gk.dfm.domain.verb.ObjectClass
-import com.gk.dfm.domain.verb.ObjectPlaceholder
-import com.gk.dfm.input.GermanDeclensionTemplateParser
+import com.gk.dfm.domain.object.ObjectClass
+import com.gk.dfm.domain.verb.german.objects.Case
+import com.gk.dfm.domain.verb.german.objects.ObjectPlaceholder
 import org.junit.Test
 
 /**

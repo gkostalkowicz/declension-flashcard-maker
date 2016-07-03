@@ -1,9 +1,10 @@
-package com.gk.dfm.domain.object.noun
+package com.gk.dfm.domain.object.nounobject.german
 
-import com.gk.dfm.domain.Case
+import com.gk.dfm.domain.verb.german.objects.Case
 
-import static com.gk.dfm.domain.Case.*
-import static com.gk.dfm.domain.object.noun.ObjectNumberAndGender.*
+import static com.gk.dfm.domain.object.nounobject.german.ArticleNumberAndGender.*
+import static com.gk.dfm.domain.verb.german.objects.Case.ACCUSATIVE
+import static com.gk.dfm.domain.verb.german.objects.Case.DATIVE
 
 /**
  * Created by Mr. President on 6/19/2016.
@@ -13,7 +14,7 @@ enum ArticleType {
     DEFINITE(Const.DEFINITE_ARTICLE_DECLENSION_MAP);
 
     static class Const {
-        private static final Map<Case, Map<ObjectNumberAndGender, String>> DEFINITE_ARTICLE_DECLENSION_MAP = [
+        private static final Map<Case, Map<ArticleNumberAndGender, String>> DEFINITE_ARTICLE_DECLENSION_MAP = [
                 (DATIVE)    : [
                         (MASCULINE_SINGULAR): "dem",
                         (FEMININE_SINGULAR) : "der",
@@ -29,13 +30,13 @@ enum ArticleType {
         ]
     }
 
-    private ArticleType(Map<Case, Map<ObjectNumberAndGender, String>> declensionMap) {
+    private ArticleType(Map<Case, Map<ArticleNumberAndGender, String>> declensionMap) {
         this.declensionMap = declensionMap
     }
 
-    private Map<Case, Map<ObjectNumberAndGender, String>> declensionMap
+    private Map<Case, Map<ArticleNumberAndGender, String>> declensionMap
 
-    String decline(ObjectNumberAndGender objectNumberAndGender, Case objectCase) {
+    String decline(ArticleNumberAndGender objectNumberAndGender, Case objectCase) {
         declensionMap[objectCase][objectNumberAndGender]
     }
 

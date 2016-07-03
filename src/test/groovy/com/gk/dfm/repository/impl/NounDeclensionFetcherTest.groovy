@@ -1,8 +1,8 @@
 package com.gk.dfm.repository.impl
 
-import com.gk.dfm.domain.Case
-import com.gk.dfm.domain.object.noun.Gender
-import com.gk.dfm.domain.object.noun.ObjectNumber
+import com.gk.dfm.domain.object.noun.german.Gender
+import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
+import com.gk.dfm.domain.verb.german.objects.Case
 import org.junit.Test
 
 /**

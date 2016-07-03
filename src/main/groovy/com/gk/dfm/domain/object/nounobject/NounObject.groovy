@@ -1,10 +1,13 @@
-package com.gk.dfm.domain.object.noun
+package com.gk.dfm.domain.object.nounobject
 
 import com.gk.dfm.domain.object.GermanObject
 import com.gk.dfm.domain.object.PolishObject
 import com.gk.dfm.domain.object.SentenceObject
-import com.gk.dfm.domain.object.noun.german.GermanNounObject
-import com.gk.dfm.domain.object.noun.polish.PolishNounObject
+import com.gk.dfm.domain.object.noun.Noun
+import com.gk.dfm.domain.object.nounobject.german.ArticleType
+import com.gk.dfm.domain.object.nounobject.german.GermanNounObject
+import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
+import com.gk.dfm.domain.object.nounobject.polish.PolishNounObject
 
 /**
  * Created by Mr. President on 6/19/2016.

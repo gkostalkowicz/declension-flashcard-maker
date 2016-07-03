@@ -3,11 +3,11 @@ package com.gk.dfm.input
 import com.fasterxml.jackson.databind.MappingIterator
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvSchema
-import com.gk.dfm.domain.object.noun.Gender
+import com.gk.dfm.domain.object.ObjectClass
 import com.gk.dfm.domain.object.noun.Noun
+import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.GermanNoun
 import com.gk.dfm.domain.object.noun.polish.PolishNoun
-import com.gk.dfm.domain.verb.ObjectClass
 import com.gk.dfm.repository.NounDeclensionRepository
 
 import java.util.regex.Pattern

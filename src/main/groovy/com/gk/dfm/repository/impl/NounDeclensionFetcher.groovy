@@ -1,9 +1,9 @@
 package com.gk.dfm.repository.impl
 
-import com.gk.dfm.domain.Case
-import com.gk.dfm.domain.object.noun.Gender
-import com.gk.dfm.domain.object.noun.ObjectNumber
+import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.NounDeclension
+import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
+import com.gk.dfm.domain.verb.german.objects.Case
 import com.google.common.base.CharMatcher
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element

@@ -1,7 +1,8 @@
-package com.gk.dfm.domain.verb
+package com.gk.dfm.domain.verb.polish
 
 import com.gk.dfm.domain.object.SentenceObject
 import com.gk.dfm.domain.subject.Subject
+import com.gk.dfm.domain.verb.german.objects.ObjectPlaceholder
 import groovy.transform.ToString
 
 import static com.gk.dfm.domain.subject.Subject.*

@@ -1,6 +1,6 @@
 package com.gk.dfm.repository.impl
 
-import com.gk.dfm.domain.object.noun.Gender
+import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.NounDeclension
 import com.gk.dfm.util.Table
 

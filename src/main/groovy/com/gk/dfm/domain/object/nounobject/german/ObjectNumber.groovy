@@ -1,4 +1,4 @@
-package com.gk.dfm.domain.object.noun
+package com.gk.dfm.domain.object.nounobject.german
 
 /**
  * Created by Mr. President on 6/19/2016.

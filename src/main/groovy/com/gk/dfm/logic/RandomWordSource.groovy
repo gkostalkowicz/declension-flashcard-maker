@@ -1,12 +1,12 @@
 package com.gk.dfm.logic
 
+import com.gk.dfm.domain.object.ObjectClass
 import com.gk.dfm.domain.object.SentenceObject
-import com.gk.dfm.domain.object.noun.ArticleType
 import com.gk.dfm.domain.object.noun.Noun
-import com.gk.dfm.domain.object.noun.NounObject
-import com.gk.dfm.domain.object.noun.ObjectNumber
+import com.gk.dfm.domain.object.nounobject.NounObject
+import com.gk.dfm.domain.object.nounobject.german.ArticleType
+import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
 import com.gk.dfm.domain.subject.Subject
-import com.gk.dfm.domain.verb.ObjectClass
 import com.gk.dfm.domain.verb.Verb
 
 /**

@@ -1,10 +1,10 @@
 package com.gk.dfm.input
 
-import com.gk.dfm.domain.Case
-import com.gk.dfm.domain.verb.GermanDeclensionTemplate
-import com.gk.dfm.domain.verb.ObjectClass
-import com.gk.dfm.domain.verb.ObjectDefinition
-import com.gk.dfm.domain.verb.ObjectPlaceholder
+import com.gk.dfm.domain.object.ObjectClass
+import com.gk.dfm.domain.verb.german.objects.Case
+import com.gk.dfm.domain.verb.german.objects.GermanDeclensionTemplate
+import com.gk.dfm.domain.verb.german.objects.ObjectDefinition
+import com.gk.dfm.domain.verb.german.objects.ObjectPlaceholder
 
 import java.util.regex.Pattern
 

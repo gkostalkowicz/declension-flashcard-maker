@@ -1,7 +1,9 @@
-package com.gk.dfm.domain.verb
+package com.gk.dfm.domain.verb.german
 
 import com.gk.dfm.domain.object.SentenceObject
 import com.gk.dfm.domain.subject.Subject
+import com.gk.dfm.domain.verb.german.objects.GermanDeclensionTemplate
+import com.gk.dfm.domain.verb.german.objects.ObjectPlaceholder
 import groovy.transform.ToString
 
 import static com.gk.dfm.domain.subject.Subject.*
@@ -27,7 +29,6 @@ class GermanVerb {
     String verbInfinitive
     String infix
     GermanDeclensionTemplate declensionTemplate
-    String suffix
 
     String createSentence(Subject subject, Map<ObjectPlaceholder, SentenceObject> objectByPlaceholder) {
         def subjectString = GERMAN_SUBJECT[subject]
@@ -44,10 +45,6 @@ class GermanVerb {
         }
         sentence.append(" ")
         sentence.append(declinedObjects)
-        if (suffix != null) {
-            sentence.append(" ")
-            sentence.append(suffix)
-        }
         return sentence.toString()
     }
 

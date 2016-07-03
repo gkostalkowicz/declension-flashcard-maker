@@ -3,9 +3,9 @@ package com.gk.dfm.input
 import com.fasterxml.jackson.databind.MappingIterator
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvSchema
-import com.gk.dfm.domain.verb.GermanVerb
-import com.gk.dfm.domain.verb.PolishVerb
 import com.gk.dfm.domain.verb.Verb
+import com.gk.dfm.domain.verb.german.GermanVerb
+import com.gk.dfm.domain.verb.polish.PolishVerb
 
 /**
  * Created by Mr. President on 6/19/2016.
@@ -13,10 +13,9 @@ import com.gk.dfm.domain.verb.Verb
 class VerbListReader {
 
     private static final String PL_EXPRESSION_OUTLINE = "pl expression outline"
-    private static final String DE_VERB_INFINITIVE = "de verb"
+    private static final String DE_VERB_INFINITIVE = "de infinitive"
     private static final String DE_INFIX = "de infix"
     private static final String DE_DECLENSION_TEMPLATE = "de declension template"
-    private static final String DE_SUFFIX = "de suffix"
     private static final char INPUT_COLUMN_SEPARATOR = "\t"
 
     GermanDeclensionTemplateParser germanDeclensionTemplateParser = new GermanDeclensionTemplateParser()
@@ -46,8 +45,7 @@ class VerbListReader {
                     verbInfinitive: row[DE_VERB_INFINITIVE].trim(),
                     infix: columnOrNull(row[DE_INFIX]),
                     declensionTemplate:
-                            germanDeclensionTemplateParser.parseGermanDeclensionTemplate(row[DE_DECLENSION_TEMPLATE]),
-                    suffix: columnOrNull(row[DE_SUFFIX])
+                            germanDeclensionTemplateParser.parseGermanDeclensionTemplate(row[DE_DECLENSION_TEMPLATE])
             )
             Verb verb = new Verb(
                     polishVerb: polishVerb,

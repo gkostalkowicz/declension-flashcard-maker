@@ -1,7 +1,7 @@
 package com.gk.dfm.logic
 
 import com.gk.dfm.domain.object.SentenceObject
-import com.gk.dfm.domain.verb.ObjectPlaceholder
+import com.gk.dfm.domain.verb.german.objects.ObjectPlaceholder
 
 /**
  * Created by Mr. President on 6/19/2016.

@@ -1,12 +1,22 @@
 package com.gk.dfm.logic
 
-import com.gk.dfm.domain.Case
-import com.gk.dfm.domain.object.noun.*
+import com.gk.dfm.domain.object.ObjectClass
+import com.gk.dfm.domain.object.noun.Noun
+import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.GermanNoun
 import com.gk.dfm.domain.object.noun.german.NounDeclension
 import com.gk.dfm.domain.object.noun.polish.PolishNoun
+import com.gk.dfm.domain.object.nounobject.NounObject
+import com.gk.dfm.domain.object.nounobject.german.ArticleType
+import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
 import com.gk.dfm.domain.subject.Subject
-import com.gk.dfm.domain.verb.*
+import com.gk.dfm.domain.verb.Verb
+import com.gk.dfm.domain.verb.german.GermanVerb
+import com.gk.dfm.domain.verb.german.objects.Case
+import com.gk.dfm.domain.verb.german.objects.GermanDeclensionTemplate
+import com.gk.dfm.domain.verb.german.objects.ObjectDefinition
+import com.gk.dfm.domain.verb.german.objects.ObjectPlaceholder
+import com.gk.dfm.domain.verb.polish.PolishVerb
 import org.junit.Test
 
 /**
@@ -32,8 +42,7 @@ class FlashcardGeneratorTest {
                                         objectCase: Case.ACCUSATIVE,
                                         objectClass: ObjectClass.ANYTHING
                                 )]
-                        ),
-                        suffix: null
+                        )
                 )
         )
 

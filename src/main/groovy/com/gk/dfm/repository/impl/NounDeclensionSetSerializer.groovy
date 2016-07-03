@@ -1,7 +1,7 @@
 package com.gk.dfm.repository.impl
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.gk.dfm.domain.object.noun.Gender
+import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.NounDeclension
 import com.gk.dfm.util.Table
 import org.slf4j.Logger
