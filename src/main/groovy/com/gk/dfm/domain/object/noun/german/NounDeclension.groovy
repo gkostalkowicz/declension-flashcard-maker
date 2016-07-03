@@ -16,8 +16,8 @@ class NounDeclension {
     String get(ObjectNumber declensionNumber, Case declensionCase) {
         def declinedNoun = declensionMap.get(declensionNumber, declensionCase)
         if (declinedNoun == null) {
-            throw new RuntimeException("Couldn't get declined noun for number $declensionNumber and case" +
-                    " $declensionCase")
+            throw new RuntimeException("Couldn't get declined noun for $declensionNumber number and $declensionCase" +
+                    " case")
         }
         return declinedNoun
     }

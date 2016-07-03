@@ -18,7 +18,7 @@ class NounObject implements SentenceObject {
     GermanNounObject germanNounObject
 
     NounObject(Noun noun, ArticleType articleType, ObjectNumber number) {
-        polishNounObject = new PolishNounObject(noun: noun.polishNoun)
+        polishNounObject = new PolishNounObject(noun: noun.polishNoun, number: number)
         germanNounObject = new GermanNounObject(noun: noun.germanNoun, number: number, articleType: articleType)
     }
 

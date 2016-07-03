@@ -1,6 +1,7 @@
 package com.gk.dfm.logic
 
 import com.gk.dfm.domain.object.ObjectClass
+import com.gk.dfm.domain.object.SentenceObject
 import com.gk.dfm.domain.object.noun.Noun
 import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.GermanNoun
@@ -28,13 +29,86 @@ import org.junit.Test
 class FlashcardGeneratorTest {
 
     @Test
-    void "for given word lists when generateFlashcard then generate 1 valid flashcard"() {
+    void "given a subject, verb and object when generateFlashcard then generate 1 valid flashcard"() {
         given:
         def subject = Subject.SINGULAR_1ST
+        def verb = createVerb()
+        def object = createNounObject()
 
+        when:
+        def flashcard = generateFlashcard(subject, verb, object)
+
+        then:
+        assert flashcard == "ja, miec (co? pies)" + "\t" + "ich habe den Hund"
+    }
+
+    @Test
+    void "given a verb with separable prefix when generateFlashcard then generate 1 valid flashcard"() {
+        given:
+        def subject = Subject.SINGULAR_1ST
+        def verb = createVerb()
+        verb.germanVerb.conjugation.put(ConjugationPerson.SINGULAR_1ST,
+                new ConjugatedVerb(particle: "auf", coreVerb: "habe"))
+        def object = createNounObject()
+
+        when:
+        def flashcard = generateFlashcard(subject, verb, object)
+
+        then:
+        assert flashcard == "ja, miec (co? pies)" + "\t" + "ich habe den Hund auf"
+    }
+
+    @Test
+    void "given a verb with infix when generateFlashcard then generate 1 valid flashcard"() {
+        given:
+        def subject = Subject.SINGULAR_1ST
+        def verb = createVerb()
+        verb.germanVerb.infix = "auch"
+        def object = createNounObject()
+
+        when:
+        def flashcard = generateFlashcard(subject, verb, object)
+
+        then:
+        assert flashcard == "ja, miec (co? pies)" + "\t" + "ich habe auch den Hund"
+    }
+
+    @Test
+    void "given a plural object when generateFlashcard then generate flashcard with plural objects"() {
+        given:
+        def subject = Subject.SINGULAR_1ST
+        def verb = createVerb()
+        def object = createNounObject()
+        object.polishNounObject.number = ObjectNumber.PLURAL
+        object.germanNounObject.number = ObjectNumber.PLURAL
+        object.germanNounObject.noun.declension.put(ObjectNumber.PLURAL, Case.ACCUSATIVE, "Hunde")
+
+        when:
+        def flashcard = generateFlashcard(subject, verb, object)
+
+        then:
+        assert flashcard == "ja, miec (co? wiele pies)" + "\t" + "ich habe die Hunde"
+    }
+
+    private static generateFlashcard(Subject subject, Verb verb, SentenceObject object) {
+        given:
+        def randomWordSourceStub = [
+                pickSubject: { -> subject },
+                pickVerb   : { -> verb },
+                pickObject : { objectClass -> object }
+        ] as RandomWordSource
+
+        def flashcardGenerator = new FlashcardGenerator(randomWordSource: randomWordSourceStub)
+
+        when:
+        return flashcardGenerator.generateFlashcard()
+    }
+
+    private static Verb createVerb() {
         def verbConjugation = new VerbConjugation()
         verbConjugation.put(ConjugationPerson.SINGULAR_1ST, new ConjugatedVerb(coreVerb: "habe"))
-        def verb = new Verb(
+
+        return new Verb(
                 polishVerb: new PolishVerb(
                         expressionOutline: "miec (co? X)"
                 ),
@@ -51,10 +125,13 @@ class FlashcardGeneratorTest {
                         conjugation: verbConjugation
                 )
         )
+    }
 
+    private static NounObject createNounObject() {
         def nounDeclension = new NounDeclension()
         nounDeclension.put(ObjectNumber.SINGULAR, Case.ACCUSATIVE, "Hund")
-        def object = new NounObject(
+
+        return new NounObject(
                 new Noun(
                         polishNoun: new PolishNoun(
                                 noun: "pies"
@@ -69,20 +146,6 @@ class FlashcardGeneratorTest {
                 ArticleType.DEFINITE,
                 ObjectNumber.SINGULAR
         )
-
-        def randomWordSourceStub = [
-                pickSubject: { -> subject },
-                pickVerb   : { -> verb },
-                pickObject : { objectClass -> object }
-        ] as RandomWordSource
-
-        def flashcardGenerator = new FlashcardGenerator(randomWordSource: randomWordSourceStub)
-
-        when:
-        def flashcard = flashcardGenerator.generateFlashcard()
-
-        then:
-        assert flashcard == "ja, miec (co? pies)" + "\t" + "ich habe den Hund"
     }
 
 }
