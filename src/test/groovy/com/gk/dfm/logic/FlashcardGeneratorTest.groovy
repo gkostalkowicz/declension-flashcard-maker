@@ -90,6 +90,28 @@ class FlashcardGeneratorTest {
         assert flashcard == "ja, miec (co? wiele pies)" + "\t" + "ich habe die Hunde"
     }
 
+    @Test
+    void "given a preposition and an article when generateFlashcard then generate flashcard with contraction"() {
+        given:
+        def subject = Subject.SINGULAR_1ST
+        def verb = createVerb()
+        def object = createNounObject()
+        verb.polishVerb.expressionOutline = "ide do (gdzie? X)"
+        verb.germanVerb.verbInfinitive = "gehen"
+        verb.germanVerb.conjugation.put(ConjugationPerson.SINGULAR_1ST, new ConjugatedVerb(coreVerb: "gehe"))
+        verb.germanVerb.declensionTemplate.template = "in X"
+        object.polishNounObject.noun.noun = "kino"
+        object.germanNounObject.noun.noun = "Kino"
+        object.germanNounObject.noun.gender = Gender.NEUTER
+        object.germanNounObject.noun.declension.put(ObjectNumber.SINGULAR, Case.ACCUSATIVE, "Kino")
+
+        when:
+        def flashcard = generateFlashcard(subject, verb, object)
+
+        then:
+        assert flashcard == "ja, ide do (gdzie? kino)" + "\t" + "ich gehe ins Kino"
+    }
+
     private static generateFlashcard(Subject subject, Verb verb, SentenceObject object) {
         given:
         def randomWordSourceStub = [

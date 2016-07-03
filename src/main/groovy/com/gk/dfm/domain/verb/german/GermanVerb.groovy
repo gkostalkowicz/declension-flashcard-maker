@@ -7,25 +7,11 @@ import com.gk.dfm.domain.verb.german.objects.GermanDeclensionTemplate
 import com.gk.dfm.domain.verb.german.objects.ObjectPlaceholder
 import groovy.transform.ToString
 
-import static com.gk.dfm.domain.subject.Subject.*
-
 /**
  * Created by Mr. President on 6/12/2016.
  */
 @ToString(includePackage = false)
 class GermanVerb {
-
-    private static final Map<Subject, String> GERMAN_SUBJECT = [
-            (SINGULAR_1ST)          : "ich",
-            (SINGULAR_2ND)          : "du",
-            (MASCULINE_SINGULAR_3RD): "er",
-            (FEMININE_SINGULAR_3RD) : "sie",
-            (NEUTER_SINGULAR_3RD)   : "es",
-            (PLURAL_1ST)            : "wir",
-            (PLURAL_2ND)            : "ihr",
-            (PLURAL_3RD)            : "sie",
-            (FORMAL_2ND)            : "Sie"
-    ]
 
     String verbInfinitive
     String infix
@@ -33,8 +19,9 @@ class GermanVerb {
     VerbConjugation conjugation
 
     String createSentence(Subject subject, Map<ObjectPlaceholder, SentenceObject> objectByPlaceholder) {
-        def subjectString = GERMAN_SUBJECT[subject]
-        def declinedObjects = declensionTemplate.declineTemplate(objectByPlaceholder)
+        def subjectString = subject.german
+        def declinedObjects = PrepositionContractor.contractPrepositionsWithArticles(
+                " " + declensionTemplate.declineTemplate(objectByPlaceholder))
 
         def conjugatedVerb = conjugation.get(subject.toConjugationPerson())
 
@@ -46,7 +33,6 @@ class GermanVerb {
             sentence.append(" ")
             sentence.append(infix)
         }
-        sentence.append(" ")
         sentence.append(declinedObjects)
         if (conjugatedVerb.particle != null) {
             sentence.append(" ")
