@@ -3,9 +3,11 @@ package com.gk.dfm.util
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
- * A simple version of {@link com.google.common.collect.Table}. Table from Guava only has serialization support from
- * Jackson, but no deserialization yet. To avoid converting objects to be serialized to alternative object structure
- * using a Map of Maps instead of a Table, use this class.
+ * A simple version of {@link com.google.common.collect.Table}, supporting serialization and deserialization for
+ * Jackson.
+ *
+ * Guava's Table has currently only serialization support, but no deserialization yet. Use this class to avoid
+ * converting objects to be serialized to a Map of Maps.
  * <p>
  * Created by Mr. President on 02.07.2016.
  */

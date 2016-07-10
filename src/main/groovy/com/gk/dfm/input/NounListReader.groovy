@@ -61,7 +61,7 @@ class NounListReader {
                 def noun = parseNoun(row[POLISH], row[GERMAN], row[TAGS])
                 noun.map { nouns.add(it) }
             } catch (FetchException e) {
-                log.warn("Couldn't fetch noun declension for '{}'.", row[GERMAN])
+                log.warn("Couldn't fetch noun declension for '{}'. Reason: '{}'.", row[GERMAN], e.getMessage())
                 log.debug("Error details.", e)
             }
         }

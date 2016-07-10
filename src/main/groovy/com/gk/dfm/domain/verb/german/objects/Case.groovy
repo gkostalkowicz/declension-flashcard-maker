@@ -5,6 +5,6 @@ package com.gk.dfm.domain.verb.german.objects
 */
 enum Case {
 
-    DATIVE, ACCUSATIVE
+    NOMINATIVE, ACCUSATIVE, DATIVE, GENITIVE
 
 }

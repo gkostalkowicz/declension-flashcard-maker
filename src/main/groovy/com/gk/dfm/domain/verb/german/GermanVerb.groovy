@@ -2,6 +2,7 @@ package com.gk.dfm.domain.verb.german
 
 import com.gk.dfm.domain.object.SentenceObject
 import com.gk.dfm.domain.subject.Subject
+import com.gk.dfm.domain.subject.german.GermanSubjectDecliner
 import com.gk.dfm.domain.verb.german.conjugation.VerbConjugation
 import com.gk.dfm.domain.verb.german.objects.GermanDeclensionTemplate
 import com.gk.dfm.domain.verb.german.objects.ObjectPlaceholder
@@ -19,7 +20,7 @@ class GermanVerb {
     VerbConjugation conjugation
 
     String createSentence(Subject subject, Map<ObjectPlaceholder, SentenceObject> objectByPlaceholder) {
-        def subjectString = subject.german
+        def subjectString = GermanSubjectDecliner.declineSubject(subject)
         def declinedObjects = PrepositionContractor.contractPrepositionsWithArticles(
                 " " + declensionTemplate.declineTemplate(objectByPlaceholder))
 

@@ -4,10 +4,12 @@ import com.gk.dfm.domain.object.ObjectClass
 import com.gk.dfm.domain.object.SentenceObject
 import com.gk.dfm.domain.object.noun.Noun
 import com.gk.dfm.domain.object.nounobject.NounObject
-import com.gk.dfm.domain.object.nounobject.german.ArticleType
 import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
 import com.gk.dfm.domain.subject.Subject
 import com.gk.dfm.domain.verb.Verb
+import com.gk.dfm.logic.impl.DeterminerPicker
+import com.gk.dfm.logic.impl.NounPicker
+import com.gk.dfm.logic.impl.RandomUtil
 
 /**
  * Created by Mr. President on 6/19/2016.
@@ -15,54 +17,34 @@ import com.gk.dfm.domain.verb.Verb
 class RandomWordSource {
 
     private static final double PICK_PLURAL_OBJECT_NUMBER_CHANCE = 0.25
+    private static final double PICK_POSSESSIVE_PRONOUN_AS_DETERMINER_CHANCE = 0.25
 
-    private Random random = new Random()
-
+    private NounPicker nounPicker
+    private DeterminerPicker determinerPicker = new DeterminerPicker()
     List<Verb> verbs
-    private List<Noun> allNouns
-    private List<Noun> personNouns
-    private List<Noun> thingNouns
 
     void setNouns(List<Noun> nouns) {
-        this.allNouns = nouns
-        this.personNouns = nouns.findAll { it.objectClass == ObjectClass.PERSON }
-        this.thingNouns = nouns.findAll { it.objectClass == ObjectClass.THING }
+        nounPicker = new NounPicker(nouns)
     }
 
     Subject pickSubject() {
-        Subject[] subjects = Subject.values()
-        return subjects[random.nextInt(subjects.length)]
+        return RandomUtil.pickElement(Subject.values() as Subject[])
     }
 
     Verb pickVerb() {
         if (verbs.empty) {
             throw new RuntimeException("Empty verb list")
         }
-        return verbs.get(random.nextInt(verbs.size()))
+        return RandomUtil.pickElement(verbs)
     }
 
     SentenceObject pickObject(ObjectClass objectClass) {
-        def nouns = getNounList(objectClass)
-        if (nouns.empty) {
-            throw new RuntimeException("Empty noun list for object class $objectClass")
-        }
-        def noun = nouns.get(random.nextInt(nouns.size()))
-        def number = random.nextDouble() < PICK_PLURAL_OBJECT_NUMBER_CHANCE ?
+        def noun = nounPicker.pick(objectClass)
+        def number = RandomUtil.random.nextDouble() < PICK_PLURAL_OBJECT_NUMBER_CHANCE ?
                 ObjectNumber.PLURAL : ObjectNumber.SINGULAR
-        return new NounObject(noun, ArticleType.DEFINITE, number)
-    }
-
-    private List<Noun> getNounList(ObjectClass objectClass) {
-        switch (objectClass) {
-            case ObjectClass.PERSON:
-                return personNouns
-            case ObjectClass.THING:
-                return thingNouns
-            case ObjectClass.ANYTHING:
-                return allNouns
-            default:
-                throw new RuntimeException("Unknown object class: $objectClass")
-        }
+        def determiner = determinerPicker.pick(number,
+                RandomUtil.random.nextDouble() < PICK_POSSESSIVE_PRONOUN_AS_DETERMINER_CHANCE)
+        return new NounObject(noun, determiner, number)
     }
 
 }

@@ -5,11 +5,11 @@ import com.gk.dfm.domain.object.noun.german.Gender
 /**
  * Created by Mr. President on 6/19/2016.
  */
-enum ArticleNumberAndGender {
+enum NumberAndGender {
 
     MASCULINE_SINGULAR, FEMININE_SINGULAR, NEUTER_SINGULAR, PLURAL;
 
-    static ArticleNumberAndGender get(ObjectNumber number, Gender gender) {
+    static NumberAndGender get(ObjectNumber number, Gender gender) {
         if (number == ObjectNumber.PLURAL) {
             return PLURAL
         } else if (number == ObjectNumber.SINGULAR) {
@@ -21,10 +21,10 @@ enum ArticleNumberAndGender {
                 case Gender.NEUTER:
                     return NEUTER_SINGULAR
                 default:
-                    throw new RuntimeException("Can't get ArticleNumberAndGender for $gender gender");
+                    throw new RuntimeException("Can't get NumberAndGender for $gender gender");
             }
         } else {
-            throw new RuntimeException("Can't get ArticleNumberAndGender for $number number");
+            throw new RuntimeException("Can't get NumberAndGender for $number number");
         }
     }
 

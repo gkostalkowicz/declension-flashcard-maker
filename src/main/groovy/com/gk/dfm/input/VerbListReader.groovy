@@ -51,7 +51,8 @@ class VerbListReader {
             try {
                 tryToAddVerbFromRow(row, verbs)
             } catch (FetchException e) {
-                log.warn("Couldn't fetch verb conjugation for '{}'.", row[DE_VERB_INFINITIVE])
+                log.warn("Couldn't fetch verb conjugation for '{}'. Reason: '{}'.", row[DE_VERB_INFINITIVE],
+                        e.getMessage())
                 log.debug("Error details.", e)
             }
         }

@@ -2,6 +2,7 @@ package com.gk.dfm.domain.object.nounobject.german
 
 import com.gk.dfm.domain.object.GermanObject
 import com.gk.dfm.domain.object.noun.german.GermanNoun
+import com.gk.dfm.domain.object.nounobject.Determiner
 import com.gk.dfm.domain.verb.german.objects.Case
 
 /**
@@ -11,12 +12,13 @@ class GermanNounObject implements GermanObject {
 
     GermanNoun noun
     ObjectNumber number
-    ArticleType articleType
+    Determiner determiner
 
     String decline(Case objectCase) {
-        def declinedArticle = articleType.decline(ArticleNumberAndGender.get(number, noun.gender), objectCase)
+        def declinedDeterminer = GermanDeterminerDecliner.declineDeterminer(determiner,
+                NumberAndGender.get(number, noun.gender), objectCase)
         def declinedNoun = noun.declension.get(number, objectCase)
-        return declinedArticle + " " + declinedNoun
+        return declinedDeterminer + " " + declinedNoun
     }
 
 }

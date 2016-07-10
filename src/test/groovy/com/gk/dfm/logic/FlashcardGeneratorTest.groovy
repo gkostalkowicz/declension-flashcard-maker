@@ -7,8 +7,8 @@ import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.GermanNoun
 import com.gk.dfm.domain.object.noun.german.NounDeclension
 import com.gk.dfm.domain.object.noun.polish.PolishNoun
+import com.gk.dfm.domain.object.nounobject.Determiner
 import com.gk.dfm.domain.object.nounobject.NounObject
-import com.gk.dfm.domain.object.nounobject.german.ArticleType
 import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
 import com.gk.dfm.domain.subject.Subject
 import com.gk.dfm.domain.verb.Verb
@@ -39,7 +39,7 @@ class FlashcardGeneratorTest {
         def flashcard = generateFlashcard(subject, verb, object)
 
         then:
-        assert flashcard == "ja, miec (co? pies)" + "\t" + "ich habe den Hund"
+        assert flashcard == "ja, miec (co? (określony) pies)" + "\t" + "ich habe den Hund"
     }
 
     @Test
@@ -55,7 +55,7 @@ class FlashcardGeneratorTest {
         def flashcard = generateFlashcard(subject, verb, object)
 
         then:
-        assert flashcard == "ja, miec (co? pies)" + "\t" + "ich habe den Hund auf"
+        assert flashcard == "ja, miec (co? (określony) pies)" + "\t" + "ich habe den Hund auf"
     }
 
     @Test
@@ -70,7 +70,7 @@ class FlashcardGeneratorTest {
         def flashcard = generateFlashcard(subject, verb, object)
 
         then:
-        assert flashcard == "ja, miec (co? pies)" + "\t" + "ich habe auch den Hund"
+        assert flashcard == "ja, miec (co? (określony) pies)" + "\t" + "ich habe auch den Hund"
     }
 
     @Test
@@ -87,7 +87,7 @@ class FlashcardGeneratorTest {
         def flashcard = generateFlashcard(subject, verb, object)
 
         then:
-        assert flashcard == "ja, miec (co? wiele pies)" + "\t" + "ich habe die Hunde"
+        assert flashcard == "ja, miec (co? wiele (określony) pies)" + "\t" + "ich habe die Hunde"
     }
 
     @Test
@@ -109,7 +109,7 @@ class FlashcardGeneratorTest {
         def flashcard = generateFlashcard(subject, verb, object)
 
         then:
-        assert flashcard == "ja, ide do (gdzie? kino)" + "\t" + "ich gehe ins Kino"
+        assert flashcard == "ja, ide do (gdzie? (określony) kino)" + "\t" + "ich gehe ins Kino"
     }
 
     private static generateFlashcard(Subject subject, Verb verb, SentenceObject object) {
@@ -117,7 +117,7 @@ class FlashcardGeneratorTest {
         def randomWordSourceStub = [
                 pickSubject: { -> subject },
                 pickVerb   : { -> verb },
-                pickObject : { objectClass -> object }
+                pickObject : { anyClass -> object }
         ] as RandomWordSource
 
         def flashcardGenerator = new FlashcardGenerator(randomWordSource: randomWordSourceStub)
@@ -165,7 +165,7 @@ class FlashcardGeneratorTest {
                         ),
                         objectClass: ObjectClass.PERSON
                 ),
-                ArticleType.DEFINITE,
+                Determiner.DEFINITE_ARTICLE,
                 ObjectNumber.SINGULAR
         )
     }
