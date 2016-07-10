@@ -35,11 +35,17 @@ class RandomWordSource {
     }
 
     Verb pickVerb() {
+        if (verbs.empty) {
+            throw new RuntimeException("Empty verb list")
+        }
         return verbs.get(random.nextInt(verbs.size()))
     }
 
     SentenceObject pickObject(ObjectClass objectClass) {
         def nouns = getNounList(objectClass)
+        if (nouns.empty) {
+            throw new RuntimeException("Empty noun list for object class $objectClass")
+        }
         def noun = nouns.get(random.nextInt(nouns.size()))
         def number = random.nextDouble() < PICK_PLURAL_OBJECT_NUMBER_CHANCE ?
                 ObjectNumber.PLURAL : ObjectNumber.SINGULAR

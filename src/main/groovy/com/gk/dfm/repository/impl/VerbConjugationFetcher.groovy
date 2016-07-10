@@ -41,8 +41,8 @@ class VerbConjugationFetcher {
             (PLURAL_3RD)  : "sie/Sie"
     ]
 
-    static VerbConjugation fetchConjugation(String infinitive) {
-        log.info("Fetching declension for '{}'.", infinitive)
+    static VerbConjugation fetchConjugation(String infinitive) throws FetchException {
+        log.info("Fetching conjugation for '{}'.", infinitive)
         sleep(FetchingConstants.MILLISECOND_SLEEP_BETWEEN_REQUESTS)
 
         def asciiInfinitive = replaceUmlautLettersWithAsciiSpelling(infinitive)
@@ -52,8 +52,9 @@ class VerbConjugationFetcher {
         def table = tables.get(TABLE_IDX)
 
         def heading = table.child(HEADING_ROW_IDX).text()
-        assert heading == EXPECTED_HEADING_NAME: "Conjugation table describes '$heading', " +
-                "expected '$EXPECTED_HEADING_NAME'"
+        if (heading != EXPECTED_HEADING_NAME) {
+            throw new FetchException("Conjugation table describes '$heading', expected '$EXPECTED_HEADING_NAME'")
+        }
 
         def conjugation = new VerbConjugation()
         for (def person : ConjugationPerson.values()) {
@@ -70,8 +71,10 @@ class VerbConjugationFetcher {
     private static void getConjugatedVerb(ConjugationPerson person, Element row, String expectedPersonName,
                                           VerbConjugation conjugation) {
         def personName = row.child(PERSON_NAME_COLUMN_IDX).text()
-        assert personName == expectedPersonName: "Row describes conjugation for '$personName' person, " +
-                "expected '$expectedPersonName'"
+        if (personName != expectedPersonName) {
+            throw new FetchException("Row describes conjugation for '$personName' person, " +
+                    "expected '$expectedPersonName'")
+        }
 
         def conjugatedVerbs = row.child(CONJUGATED_VERB_COLUMN_IDX).text()
         def verbSeparatorIdx = conjugatedVerbs.indexOf(VERB_VERSIONS_SEPARATOR)

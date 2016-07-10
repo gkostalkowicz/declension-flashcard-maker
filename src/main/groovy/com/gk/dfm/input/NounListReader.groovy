@@ -9,6 +9,8 @@ import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.GermanNoun
 import com.gk.dfm.domain.object.noun.polish.PolishNoun
 import com.gk.dfm.repository.NounDeclensionRepository
+import com.gk.dfm.repository.impl.FetchException
+import com.gk.dfm.util.GlobalConstants
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -28,7 +30,7 @@ class NounListReader {
     private static final String PERSON_TAG = "person"
     private static final String THING_TAG = "ding"
     private static final char INPUT_COLUMN_SEPARATOR = "\t"
-    private static final String GERMAN_NOUN_PATTERN = "(der|die|das) ([A-Za-z-]+).*"
+    private static final String GERMAN_NOUN_PATTERN = "(der|die|das) ([\\p{L}-]+).*"
 
     private NounDeclensionRepository nounDeclensionRepository
 
@@ -44,17 +46,24 @@ class NounListReader {
                 .addColumn(GERMAN)
                 .addColumn(TAGS, CsvSchema.ColumnType.NUMBER)
                 .build()
-                .withColumnSeparator(INPUT_COLUMN_SEPARATOR);
+                .withColumnSeparator(INPUT_COLUMN_SEPARATOR)
         CsvMapper mapper = new CsvMapper()
+        def reader = new BufferedReader(new InputStreamReader(new FileInputStream(csvFile),
+                GlobalConstants.FILE_CHARSET_NAME))
         MappingIterator<Map<String, String>> it = mapper.readerFor(Map)
                 .with(schema)
-                .readValues(csvFile)
+                .readValues(reader)
 
         List<Noun> nouns = new ArrayList<>()
         while (it.hasNext()) {
             def row = it.next()
-            def noun = parseNoun(row[POLISH], row[GERMAN], row[TAGS])
-            noun.map { nouns.add(it) }
+            try {
+                def noun = parseNoun(row[POLISH], row[GERMAN], row[TAGS])
+                noun.map { nouns.add(it) }
+            } catch (FetchException e) {
+                log.warn("Couldn't fetch noun declension for '{}'.", row[GERMAN])
+                log.debug("Error details.", e)
+            }
         }
         return nouns
     }

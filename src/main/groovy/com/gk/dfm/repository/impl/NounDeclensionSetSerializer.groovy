@@ -3,6 +3,7 @@ package com.gk.dfm.repository.impl
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.NounDeclension
+import com.gk.dfm.util.GlobalConstants
 import com.gk.dfm.util.Table
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -24,7 +25,9 @@ class NounDeclensionSetSerializer {
 
     NounDeclensionSet loadDeclensionSet() {
         try {
-            return mapper.readValue(repositoryFile, NounDeclensionSet)
+            def reader = new BufferedReader(new InputStreamReader(new FileInputStream(repositoryFile),
+                    GlobalConstants.FILE_CHARSET_NAME))
+            return mapper.readValue(reader, NounDeclensionSet)
         } catch (IOException e) {
             log.warn("Problem reading noun repository file; empty repository initialized.")
             log.debug("Error details.", e)
@@ -33,7 +36,9 @@ class NounDeclensionSetSerializer {
     }
 
     void saveDeclensionSet(NounDeclensionSet declensionSet) {
-        mapper.writeValue(repositoryFile, declensionSet)
+        def writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(repositoryFile),
+                GlobalConstants.FILE_CHARSET_NAME))
+        mapper.writeValue(writer, declensionSet)
     }
 
 }

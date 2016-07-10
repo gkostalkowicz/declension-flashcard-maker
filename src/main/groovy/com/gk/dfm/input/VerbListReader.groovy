@@ -7,11 +7,17 @@ import com.gk.dfm.domain.verb.Verb
 import com.gk.dfm.domain.verb.german.GermanVerb
 import com.gk.dfm.domain.verb.polish.PolishVerb
 import com.gk.dfm.repository.VerbConjugationRepository
+import com.gk.dfm.repository.impl.FetchException
+import com.gk.dfm.util.GlobalConstants
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Created by Mr. President on 6/19/2016.
  */
 class VerbListReader {
+
+    private static final Logger log = LoggerFactory.getLogger(VerbListReader)
 
     private static final String PL_EXPRESSION_OUTLINE = "pl expression outline"
     private static final String DE_VERB_INFINITIVE = "de infinitive"
@@ -33,35 +39,46 @@ class VerbListReader {
                 .withHeader()
                 .withColumnSeparator(INPUT_COLUMN_SEPARATOR)
         CsvMapper mapper = new CsvMapper()
+        def reader = new BufferedReader(new InputStreamReader(new FileInputStream(csvFile),
+                GlobalConstants.FILE_CHARSET_NAME))
         MappingIterator<Map<String, String>> it = mapper.readerFor(Map)
                 .with(bootstrapSchema)
-                .readValues(csvFile)
+                .readValues(reader)
 
         List<Verb> verbs = new ArrayList<>()
         while (it.hasNext()) {
-            Map<String, String> row = it.next()
-            if (!exists(row[PL_EXPRESSION_OUTLINE])) {
-                continue
+            def row = it.next()
+            try {
+                tryToAddVerbFromRow(row, verbs)
+            } catch (FetchException e) {
+                log.warn("Couldn't fetch verb conjugation for '{}'.", row[DE_VERB_INFINITIVE])
+                log.debug("Error details.", e)
             }
-
-            def infinitive = row[DE_VERB_INFINITIVE].trim()
-
-            PolishVerb polishVerb = new PolishVerb(
-                    expressionOutline: row[PL_EXPRESSION_OUTLINE]
-            )
-            GermanVerb germanVerb = new GermanVerb(
-                    verbInfinitive: infinitive,
-                    infix: columnOrNull(row[DE_INFIX]),
-                    declensionTemplate:
-                            germanDeclensionTemplateParser.parseGermanDeclensionTemplate(row[DE_DECLENSION_TEMPLATE]),
-                    conjugation: verbConjugationRepository.conjugateVerb(infinitive)
-            )
-            Verb verb = new Verb(
-                    polishVerb: polishVerb,
-                    germanVerb: germanVerb)
-            verbs.add(verb)
         }
         return verbs
+    }
+
+    private void tryToAddVerbFromRow(Map<String, String> row, List<Verb> verbs) {
+        if (!exists(row[PL_EXPRESSION_OUTLINE])) {
+            return
+        }
+
+        def infinitive = row[DE_VERB_INFINITIVE].trim()
+
+        PolishVerb polishVerb = new PolishVerb(
+                expressionOutline: row[PL_EXPRESSION_OUTLINE]
+        )
+        GermanVerb germanVerb = new GermanVerb(
+                verbInfinitive: infinitive,
+                infix: columnOrNull(row[DE_INFIX]),
+                declensionTemplate:
+                        germanDeclensionTemplateParser.parseGermanDeclensionTemplate(row[DE_DECLENSION_TEMPLATE]),
+                conjugation: verbConjugationRepository.conjugateVerb(infinitive)
+        )
+        Verb verb = new Verb(
+                polishVerb: polishVerb,
+                germanVerb: germanVerb)
+        verbs.add(verb)
     }
 
     private static String columnOrNull(String column) {

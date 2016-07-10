@@ -1,6 +1,7 @@
 package com.gk.dfm.repository.impl
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.gk.dfm.util.GlobalConstants
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -21,7 +22,9 @@ class VerbConjugationSetSerializer {
 
     VerbConjugationSet loadConjugationSet() {
         try {
-            return mapper.readValue(repositoryFile, VerbConjugationSet)
+            def reader = new BufferedReader(new InputStreamReader(new FileInputStream(repositoryFile),
+                    GlobalConstants.FILE_CHARSET_NAME))
+            return mapper.readValue(reader, VerbConjugationSet)
         } catch (IOException e) {
             log.warn("Problem reading verb repository file; empty repository initialized.")
             log.debug("Error details.", e)
@@ -30,7 +33,9 @@ class VerbConjugationSetSerializer {
     }
 
     void saveConjugationSet(VerbConjugationSet conjugationSet) {
-        mapper.writeValue(repositoryFile, conjugationSet)
+        def writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(repositoryFile),
+                GlobalConstants.FILE_CHARSET_NAME))
+        mapper.writeValue(writer, conjugationSet)
     }
 
 }

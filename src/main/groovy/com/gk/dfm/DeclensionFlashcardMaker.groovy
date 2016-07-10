@@ -12,7 +12,7 @@ import com.gk.dfm.repository.VerbConjugationRepository
  */
 class DeclensionFlashcardMaker {
 
-    private static final FLASHCARD_CNT = 5
+    private static final FLASHCARD_CNT = 1000
 
     static void main(String[] args) {
         new DeclensionFlashcardMaker(args)
@@ -23,6 +23,7 @@ class DeclensionFlashcardMaker {
         def nounsFilename = args[1]
         def verbRepositoryFilename = args[2]
         def nounRepositoryFilename = args[3]
+        def outputFilename = args[4]
 
         def verbConjugationRepository = new VerbConjugationRepository(verbRepositoryFilename)
         def nounDeclensionRepository = new NounDeclensionRepository(nounRepositoryFilename)
@@ -36,8 +37,13 @@ class DeclensionFlashcardMaker {
 
             def flashcardGenerator = new FlashcardGenerator(randomWordSource: randomWordSource)
 
-            for (int i = 0; i < FLASHCARD_CNT; i++) {
-                println flashcardGenerator.generateFlashcard()
+            def outputStream = new BufferedWriter(new FileWriter(outputFilename))
+            try {
+                for (int i = 0; i < FLASHCARD_CNT; i++) {
+                    outputStream.writeLine(flashcardGenerator.generateFlashcard())
+                }
+            } finally {
+                outputStream.close()
             }
         } finally {
             verbConjugationRepository.close()

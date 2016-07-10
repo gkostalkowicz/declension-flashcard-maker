@@ -29,7 +29,7 @@ class NounDeclensionFetcher {
     private static final int PLURAL_COLUMN_IDX = 4
     private static final int NODE_BEFORE_LINE_BREAK_IDX = 0
 
-    static NounDeclension fetchDeclension(Gender gender, String noun) {
+    static NounDeclension fetchDeclension(Gender gender, String noun) throws FetchException {
         log.info("Fetching declension for '{}', '{}'.", noun, gender)
         sleep(FetchingConstants.MILLISECOND_SLEEP_BETWEEN_REQUESTS)
 
@@ -39,12 +39,16 @@ class NounDeclensionFetcher {
         def tables = document.select("#WordClass[title=Noun] > table > tbody")
 
         def tableCnt = tables.size()
-        assert tableCnt == EXPECTED_TABLE_CNT: "$tableCnt declension tables found, $EXPECTED_TABLE_CNT expected"
+        if (tableCnt != EXPECTED_TABLE_CNT) {
+            throw new FetchException("$tableCnt declension tables found, $EXPECTED_TABLE_CNT expected")
+        }
 
         def table = tables.get(TABLE_IDX)
 
         def rowCnt = table.children().size()
-        assert rowCnt == EXPECTED_ROW_CNT: "Declension table contains $rowCnt rows, $EXPECTED_ROW_CNT expected"
+        if (rowCnt != EXPECTED_ROW_CNT) {
+            throw new FetchException("Declension table contains $rowCnt rows, $EXPECTED_ROW_CNT expected")
+        }
 
         def declension = new NounDeclension()
         getDeclinedNouns(Case.DATIVE, table.child(DATIVE_ROW_IDX), "Dativ", declension)
@@ -68,12 +72,14 @@ class NounDeclensionFetcher {
     private static void getDeclinedNouns(Case declensionCase, Element tableRow, String expectedCaseName,
                                          NounDeclension declension) {
         def columnCnt = tableRow.children().size()
-        assert columnCnt == EXPECTED_COLUMN_CNT: "Declension table row contains $columnCnt columns," +
-                "$EXPECTED_COLUMN_CNT expected"
+        if (columnCnt != EXPECTED_COLUMN_CNT) {
+            throw new FetchException("Declension table row contains $columnCnt columns, $EXPECTED_COLUMN_CNT expected")
+        }
 
         def caseName = tableRow.child(CASE_NAME_COLUMN_IDX).text()
-        assert caseName == expectedCaseName: "Declension table row describes '$caseName' case, " +
-                "'$expectedCaseName' expected"
+        if (caseName != expectedCaseName) {
+            throw new FetchException("Declension table row describes '$caseName' case, '$expectedCaseName' expected")
+        }
 
         declension.put(ObjectNumber.SINGULAR, declensionCase, getDeclinedNoun(tableRow, SINGULAR_COLUMN_IDX))
         declension.put(ObjectNumber.PLURAL, declensionCase, getDeclinedNoun(tableRow, PLURAL_COLUMN_IDX))
