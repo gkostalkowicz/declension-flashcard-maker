@@ -7,17 +7,15 @@ import com.gk.dfm.domain.verb.Verb
 import com.gk.dfm.domain.verb.german.GermanVerb
 import com.gk.dfm.domain.verb.polish.PolishVerb
 import com.gk.dfm.repository.VerbConjugationRepository
-import com.gk.dfm.repository.impl.FetchException
-import com.gk.dfm.util.GlobalConstants
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import com.gk.dfm.repository.impl.fetch.FetchException
+import com.gk.dfm.util.CharsetConstants
+import groovy.util.logging.Slf4j
 
 /**
  * Created by Mr. President on 6/19/2016.
  */
+@Slf4j
 class VerbListReader {
-
-    private static final Logger log = LoggerFactory.getLogger(VerbListReader)
 
     private static final String PL_EXPRESSION_OUTLINE = "pl expression outline"
     private static final String DE_VERB_INFINITIVE = "de infinitive"
@@ -40,7 +38,7 @@ class VerbListReader {
                 .withColumnSeparator(INPUT_COLUMN_SEPARATOR)
         CsvMapper mapper = new CsvMapper()
         def reader = new BufferedReader(new InputStreamReader(new FileInputStream(csvFile),
-                GlobalConstants.FILE_CHARSET_NAME))
+                CharsetConstants.FILE_CHARSET_NAME))
         MappingIterator<Map<String, String>> it = mapper.readerFor(Map)
                 .with(bootstrapSchema)
                 .readValues(reader)

@@ -1,10 +1,11 @@
 package com.gk.dfm.domain.object.nounobject.german
 
+import com.gk.dfm.domain.object.NumberAndGender
 import com.gk.dfm.domain.object.nounobject.Determiner
 import com.gk.dfm.domain.verb.german.objects.Case
 
+import static com.gk.dfm.domain.object.NumberAndGender.*
 import static com.gk.dfm.domain.object.nounobject.Determiner.*
-import static com.gk.dfm.domain.object.nounobject.german.NumberAndGender.*
 import static com.gk.dfm.domain.verb.german.objects.Case.*
 
 /**
@@ -324,20 +325,20 @@ class GermanDeterminerDecliner {
             ],
     ]
 
-    static String declineDeterminer(Determiner determiner, NumberAndGender objectNumberAndGender, Case objectCase) {
+    static Optional<String> declineDeterminer(Determiner determiner, NumberAndGender objectNumberAndGender, Case objectCase) {
         if (determiner == NO_DETERMINER) {
-            return "(-)"
+            return Optional.empty()
         } else if (determiner.possessivePronoun) {
             def stem = POSSESSIVE_PRONOUN_TO_STEM[determiner]
             def ending = POSSESSIVE_PRONOUN_TO_ENDING[objectCase][objectNumberAndGender]
-            return stem + ending
+            return Optional.of(stem + ending)
         } else {
             def declinedDeterminer = DECLENSION_MAP[determiner][objectCase][objectNumberAndGender]
             if (declinedDeterminer == null) {
                 throw new RuntimeException("Determiner $determiner has no grammatical form for $objectNumberAndGender" +
                         " and $objectCase")
             }
-            return declinedDeterminer
+            return Optional.of(declinedDeterminer)
         }
     }
 

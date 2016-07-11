@@ -7,6 +7,6 @@ import com.gk.dfm.domain.verb.german.conjugation.VerbConjugation
  */
 class VerbConjugationSet {
 
-    Map<String, VerbConjugation> conjugations
+    Map<String, VerbConjugation> conjugations = new HashMap<>()
 
 }

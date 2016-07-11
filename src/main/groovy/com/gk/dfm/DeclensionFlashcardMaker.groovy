@@ -1,9 +1,10 @@
 package com.gk.dfm
 
-import com.gk.dfm.input.NounListReader
+import com.gk.dfm.input.NounAndAdjectiveListReader
 import com.gk.dfm.input.VerbListReader
 import com.gk.dfm.logic.FlashcardGenerator
 import com.gk.dfm.logic.RandomWordSource
+import com.gk.dfm.repository.AdjectiveDeclensionRepository
 import com.gk.dfm.repository.NounDeclensionRepository
 import com.gk.dfm.repository.VerbConjugationRepository
 
@@ -23,17 +24,22 @@ class DeclensionFlashcardMaker {
         def nounsFilename = args[1]
         def verbRepositoryFilename = args[2]
         def nounRepositoryFilename = args[3]
-        def outputFilename = args[4]
+        def adjectiveRepositoryFilename = args[4]
+        def outputFilename = args[5]
 
         def verbConjugationRepository = new VerbConjugationRepository(verbRepositoryFilename)
         def nounDeclensionRepository = new NounDeclensionRepository(nounRepositoryFilename)
+        def adjectiveDeclensionRepository = new AdjectiveDeclensionRepository(adjectiveRepositoryFilename)
         try {
             def randomWordSource = new RandomWordSource()
             def verbListReader = new VerbListReader(verbConjugationRepository)
-            def nounListReader = new NounListReader(nounDeclensionRepository)
+            def nounAndAdjectiveListReader = new NounAndAdjectiveListReader(nounDeclensionRepository,
+                    adjectiveDeclensionRepository)
 
             randomWordSource.setVerbs(verbListReader.readVerbs(verbsFilename))
-            randomWordSource.setNouns(nounListReader.readNouns(nounsFilename))
+            def nounsAndAdjectives = nounAndAdjectiveListReader.readNounsAndAdjectives(nounsFilename)
+            randomWordSource.setNouns(nounsAndAdjectives.nouns)
+            randomWordSource.setAdjectives(nounsAndAdjectives.adjectives)
 
             def flashcardGenerator = new FlashcardGenerator(randomWordSource: randomWordSource)
 
@@ -48,6 +54,7 @@ class DeclensionFlashcardMaker {
         } finally {
             verbConjugationRepository.close()
             nounDeclensionRepository.close()
+            adjectiveDeclensionRepository.close()
         }
     }
 

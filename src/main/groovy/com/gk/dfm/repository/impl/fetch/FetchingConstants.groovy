@@ -1,4 +1,4 @@
-package com.gk.dfm.repository.impl
+package com.gk.dfm.repository.impl.fetch
 
 /**
  * Created by Mr. President on 03.07.2016.

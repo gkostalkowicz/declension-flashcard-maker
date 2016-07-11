@@ -7,6 +7,10 @@ class RandomUtil {
 
     static final Random random = new Random()
 
+    static boolean trueWithChance(double chance) {
+        random.nextDouble() < chance
+    }
+
     static <T> T pickElement(List<T> list) {
         list[random.nextInt(list.size())]
     }

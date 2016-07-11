@@ -1,22 +1,20 @@
-package com.gk.dfm.repository.impl
+package com.gk.dfm.repository.impl.fetch
 
 import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.NounDeclension
 import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
 import com.gk.dfm.domain.verb.german.objects.Case
 import com.google.common.base.CharMatcher
+import groovy.util.logging.Slf4j
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 /**
  * Created by Mr. President on 6/30/2016.
  */
+@Slf4j
 class NounDeclensionFetcher {
-
-    private static final Logger log = LoggerFactory.getLogger(NounDeclensionFetcher)
 
     private static final int EXPECTED_TABLE_CNT = 1
     private static final int TABLE_IDX = 0
@@ -30,7 +28,7 @@ class NounDeclensionFetcher {
     private static final int NODE_BEFORE_LINE_BREAK_IDX = 0
 
     static NounDeclension fetchDeclension(Gender gender, String noun) throws FetchException {
-        log.info("Fetching declension for '{}', '{}'.", noun, gender)
+        log.info("Fetching declension for noun '{}', '{}'.", noun, gender)
         sleep(FetchingConstants.MILLISECOND_SLEEP_BETWEEN_REQUESTS)
 
         def genderSymbol = getGenderSymbol(gender)
@@ -40,19 +38,19 @@ class NounDeclensionFetcher {
 
         def tableCnt = tables.size()
         if (tableCnt != EXPECTED_TABLE_CNT) {
-            throw new FetchException("$tableCnt declension tables found, $EXPECTED_TABLE_CNT expected")
+            throw new FetchException("$tableCnt declension tables found, $EXPECTED_TABLE_CNT expected", noun)
         }
 
         def table = tables.get(TABLE_IDX)
 
         def rowCnt = table.children().size()
         if (rowCnt != EXPECTED_ROW_CNT) {
-            throw new FetchException("Declension table contains $rowCnt rows, $EXPECTED_ROW_CNT expected")
+            throw new FetchException("Declension table contains $rowCnt rows, $EXPECTED_ROW_CNT expected", noun)
         }
 
         def declension = new NounDeclension()
-        getDeclinedNouns(Case.DATIVE, table.child(DATIVE_ROW_IDX), "Dativ", declension)
-        getDeclinedNouns(Case.ACCUSATIVE, table.child(ACCUSATIVE_ROW_IDX), "Akkusativ", declension)
+        addDeclinedNouns(Case.DATIVE, table.child(DATIVE_ROW_IDX), "Dativ", declension)
+        addDeclinedNouns(Case.ACCUSATIVE, table.child(ACCUSATIVE_ROW_IDX), "Akkusativ", declension)
         return declension
     }
 
@@ -69,7 +67,7 @@ class NounDeclensionFetcher {
         }
     }
 
-    private static void getDeclinedNouns(Case declensionCase, Element tableRow, String expectedCaseName,
+    private static void addDeclinedNouns(Case declensionCase, Element tableRow, String expectedCaseName,
                                          NounDeclension declension) {
         def columnCnt = tableRow.children().size()
         if (columnCnt != EXPECTED_COLUMN_CNT) {

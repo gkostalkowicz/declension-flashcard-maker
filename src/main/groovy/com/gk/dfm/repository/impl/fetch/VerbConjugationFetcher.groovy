@@ -1,21 +1,19 @@
-package com.gk.dfm.repository.impl
+package com.gk.dfm.repository.impl.fetch
 
 import com.gk.dfm.domain.verb.german.conjugation.ConjugatedVerb
 import com.gk.dfm.domain.verb.german.conjugation.ConjugationPerson
 import com.gk.dfm.domain.verb.german.conjugation.VerbConjugation
+import groovy.util.logging.Slf4j
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 import static com.gk.dfm.domain.verb.german.conjugation.ConjugationPerson.*
 
 /**
  * Created by Mr. President on 03.07.2016.
  */
+@Slf4j
 class VerbConjugationFetcher {
-
-    private static final Logger log = LoggerFactory.getLogger(VerbConjugationFetcher)
 
     private static final int TABLE_IDX = 0
     private static final int HEADING_ROW_IDX = 0
@@ -53,12 +51,13 @@ class VerbConjugationFetcher {
 
         def heading = table.child(HEADING_ROW_IDX).text()
         if (heading != EXPECTED_HEADING_NAME) {
-            throw new FetchException("Conjugation table describes '$heading', expected '$EXPECTED_HEADING_NAME'")
+            throw new FetchException("Conjugation table describes '$heading', expected '$EXPECTED_HEADING_NAME'",
+                    infinitive)
         }
 
         def conjugation = new VerbConjugation()
         for (def person : ConjugationPerson.values()) {
-            getConjugatedVerb(person, table.child(ROW_INDEX_BY_PERSON[person]), EXPECTED_PERSON_NAME_BY_PERSON[person],
+            addConjugatedVerb(person, table.child(ROW_INDEX_BY_PERSON[person]), EXPECTED_PERSON_NAME_BY_PERSON[person],
                     conjugation)
         }
         return conjugation
@@ -68,7 +67,7 @@ class VerbConjugationFetcher {
         word.replace("ä", "ae").replace("ö", "oe").replace("ü", "ue")
     }
 
-    private static void getConjugatedVerb(ConjugationPerson person, Element row, String expectedPersonName,
+    private static void addConjugatedVerb(ConjugationPerson person, Element row, String expectedPersonName,
                                           VerbConjugation conjugation) {
         def personName = row.child(PERSON_NAME_COLUMN_IDX).text()
         if (personName != expectedPersonName) {

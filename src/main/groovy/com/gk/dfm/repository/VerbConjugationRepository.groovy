@@ -1,34 +1,27 @@
 package com.gk.dfm.repository
 
 import com.gk.dfm.domain.verb.german.conjugation.VerbConjugation
-import com.gk.dfm.repository.impl.VerbConjugationFetcher
+import com.gk.dfm.repository.impl.AbstractInflectionRepository
 import com.gk.dfm.repository.impl.VerbConjugationSet
-import com.gk.dfm.repository.impl.VerbConjugationSetSerializer
+import com.gk.dfm.repository.impl.fetch.VerbConjugationFetcher
+import com.gk.dfm.repository.impl.serialize.VerbConjugationSetSerializer
 
 /**
  * Created by Mr. President on 6/30/2016.
  */
-class VerbConjugationRepository implements AutoCloseable {
+class VerbConjugationRepository extends AbstractInflectionRepository<VerbConjugationSet> {
 
-    private VerbConjugationFetcher verbConjugationFetcher = new VerbConjugationFetcher()
-    private VerbConjugationSetSerializer verbConjugationSetSerializer
-
-    private VerbConjugationSet conjugationSet
+    private VerbConjugationFetcher fetcher = new VerbConjugationFetcher()
 
     VerbConjugationRepository(String filename) {
-        verbConjugationSetSerializer = new VerbConjugationSetSerializer(filename)
-        conjugationSet = verbConjugationSetSerializer.loadConjugationSet()
+        super(new VerbConjugationSetSerializer(filename))
     }
 
     VerbConjugation conjugateVerb(String infinitive) {
-        if (conjugationSet.conjugations.get(infinitive) == null) {
-            conjugationSet.conjugations.put(infinitive, verbConjugationFetcher.fetchConjugation(infinitive))
+        if (inflectionSet.conjugations[infinitive] == null) {
+            inflectionSet.conjugations[infinitive] = fetcher.fetchConjugation(infinitive)
         }
-        return conjugationSet.conjugations.get(infinitive)
+        return inflectionSet.conjugations[infinitive]
     }
 
-    @Override
-    void close() throws Exception {
-        verbConjugationSetSerializer.saveConjugationSet(conjugationSet)
-    }
 }

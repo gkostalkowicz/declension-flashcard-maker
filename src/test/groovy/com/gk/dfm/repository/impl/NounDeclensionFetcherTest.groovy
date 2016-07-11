@@ -3,6 +3,7 @@ package com.gk.dfm.repository.impl
 import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
 import com.gk.dfm.domain.verb.german.objects.Case
+import com.gk.dfm.repository.impl.fetch.NounDeclensionFetcher
 import org.junit.Test
 
 /**
@@ -11,7 +12,7 @@ import org.junit.Test
 class NounDeclensionFetcherTest {
 
     @Test
-    void "given a noun and gender when fetchDeclensionMap then fetch correct declension"() {
+    void "given a noun and gender when fetchDeclension then fetch correct declension"() {
         given:
         def noun = "Tag"
         def gender = Gender.MASCULINE

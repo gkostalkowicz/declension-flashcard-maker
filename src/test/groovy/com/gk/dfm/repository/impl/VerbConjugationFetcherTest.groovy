@@ -1,6 +1,7 @@
 package com.gk.dfm.repository.impl
 
 import com.gk.dfm.domain.verb.german.conjugation.ConjugationPerson
+import com.gk.dfm.repository.impl.fetch.VerbConjugationFetcher
 import org.junit.Test
 
 /**
@@ -11,7 +12,7 @@ class VerbConjugationFetcherTest {
     VerbConjugationFetcher fetcher = new VerbConjugationFetcher()
 
     @Test
-    void "given a verb when fetchVerbConjugation then fetch correct conjugation"() {
+    void "given a verb when fetchConjugation then fetch correct conjugation"() {
         given:
         def verb = "gehen"
 

@@ -13,7 +13,7 @@ class VerbConjugation {
     ConjugatedVerb get(ConjugationPerson person) {
         def conjugatedVerb = conjugatedVerbByPerson.get(person)
         if (conjugatedVerb == null) {
-            throw new RuntimeException("Couldn't get declined verb for $person person")
+            throw new RuntimeException("Couldn't get conjugated verb for $person person")
         }
         return conjugatedVerb
     }

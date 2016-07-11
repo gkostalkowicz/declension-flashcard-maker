@@ -9,6 +9,6 @@ import com.gk.dfm.util.Table
  */
 class NounDeclensionSet {
 
-    Table<Gender, String, NounDeclension> declensions
+    Table<Gender, String, NounDeclension> declensions = new Table<Gender, String, NounDeclension>()
 
 }

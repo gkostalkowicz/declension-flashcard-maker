@@ -1,7 +1,13 @@
 package com.gk.dfm.logic
 
+import com.gk.dfm.domain.object.NumberAndGender
 import com.gk.dfm.domain.object.ObjectClass
 import com.gk.dfm.domain.object.SentenceObject
+import com.gk.dfm.domain.object.adjective.Adjective
+import com.gk.dfm.domain.object.adjective.german.AdjectiveDeclension
+import com.gk.dfm.domain.object.adjective.german.DeclensionType
+import com.gk.dfm.domain.object.adjective.german.RealGermanAdjective
+import com.gk.dfm.domain.object.adjective.polish.RealPolishAdjective
 import com.gk.dfm.domain.object.noun.Noun
 import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.GermanNoun
@@ -43,7 +49,23 @@ class FlashcardGeneratorTest {
     }
 
     @Test
-    void "given a verb with separable prefix when generateFlashcard then generate 1 valid flashcard"() {
+    void "given no determiner when generateFlashcard then generate a flashcard without a determiner"() {
+        given:
+        def subject = Subject.SINGULAR_1ST
+        def verb = createVerb()
+        def object = createNounObject()
+        object.germanNounObject.determiner = Determiner.NO_DETERMINER
+        object.polishNounObject.determiner = Determiner.NO_DETERMINER
+
+        when:
+        def flashcard = generateFlashcard(subject, verb, object)
+
+        then:
+        assert flashcard == "ja, miec (co? (-) pies)" + "\t" + "ich habe Hund"
+    }
+
+    @Test
+    void "given a verb with separable prefix when generateFlashcard then generate a flashcard ending with the particle"() {
         given:
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
@@ -59,7 +81,7 @@ class FlashcardGeneratorTest {
     }
 
     @Test
-    void "given a verb with infix when generateFlashcard then generate 1 valid flashcard"() {
+    void "given a verb with an infix when generateFlashcard then generate a flashcard with the infix"() {
         given:
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
@@ -74,7 +96,7 @@ class FlashcardGeneratorTest {
     }
 
     @Test
-    void "given a plural object when generateFlashcard then generate flashcard with plural objects"() {
+    void "given a plural object when generateFlashcard then generate a flashcard with plural objects"() {
         given:
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
@@ -91,7 +113,7 @@ class FlashcardGeneratorTest {
     }
 
     @Test
-    void "given a preposition and an article when generateFlashcard then generate flashcard with contraction"() {
+    void "given a preposition and an article when generateFlashcard then generate a flashcard with a contraction"() {
         given:
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
@@ -110,6 +132,25 @@ class FlashcardGeneratorTest {
 
         then:
         assert flashcard == "ja, ide do (gdzie? (określony) kino)" + "\t" + "ich gehe ins Kino"
+    }
+
+    @Test
+    void "given an adjective when generateFlashcard then generate a flashcard with the adjective"() {
+        given:
+        def subject = Subject.SINGULAR_1ST
+        def verb = createVerb()
+        def object = createNounObject()
+        object.polishNounObject.adjective = new RealPolishAdjective(adjective: "ciemny")
+        object.germanNounObject.adjective = new RealGermanAdjective(adjective: "dunkel",
+                declension: new AdjectiveDeclension())
+        (object.germanNounObject.adjective as RealGermanAdjective).declension.put(DeclensionType.WEAK,
+                NumberAndGender.MASCULINE_SINGULAR, Case.ACCUSATIVE, "dunklen")
+
+        when:
+        def flashcard = generateFlashcard(subject, verb, object)
+
+        then:
+        assert flashcard == "ja, miec (co? (określony) ciemny pies)" + "\t" + "ich habe den dunklen Hund"
     }
 
     private static generateFlashcard(Subject subject, Verb verb, SentenceObject object) {
@@ -166,7 +207,8 @@ class FlashcardGeneratorTest {
                         objectClass: ObjectClass.PERSON
                 ),
                 Determiner.DEFINITE_ARTICLE,
-                ObjectNumber.SINGULAR
+                ObjectNumber.SINGULAR,
+                Adjective.NULL_ADJECTIVE
         )
     }
 
