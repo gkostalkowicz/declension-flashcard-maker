@@ -1,6 +1,6 @@
 package com.gk.dfm.domain.object.nounobject
 /**
- * Determiner, as named by
+ * Determiner, as named in
  * <a href="https://www.lsa.umich.edu/german/hmr/Grammatik/Adjektive/Adjektivendungen.html">this source</a>.
  * <p>
  * Created by Mr. President on 6/19/2016.

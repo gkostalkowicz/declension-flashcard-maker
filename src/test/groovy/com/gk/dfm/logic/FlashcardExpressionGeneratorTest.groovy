@@ -116,7 +116,7 @@ class FlashcardExpressionGeneratorTest {
         def flashcard = generateSentence(subject, verb, object)
 
         then:
-        assert flashcard.polish == "ja, miec (co? wiele (określony) pies)"
+        assert flashcard.polish == "ja, miec (co? (wiele) (określony) pies)"
         assert flashcard.german == "ich habe die Hunde"
     }
 
@@ -223,7 +223,7 @@ class FlashcardExpressionGeneratorTest {
         def flashcard = generator.generatePrepositionExpression()
 
         then:
-        assert flashcard.polish == "z (określony) pies"
+        assert flashcard.polish == "z(czymś/kimś), (określony) pies"
         assert flashcard.german == "mit dem Hund"
     }
 

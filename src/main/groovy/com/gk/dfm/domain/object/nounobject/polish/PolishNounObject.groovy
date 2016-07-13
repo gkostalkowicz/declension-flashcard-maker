@@ -17,7 +17,7 @@ class PolishNounObject implements PolishObject {
     PolishAdjective adjective
 
     String decline() {
-        def numberPrefix = number == ObjectNumber.PLURAL ? "wiele " : ""
+        def numberPrefix = number == ObjectNumber.PLURAL ? "(wiele) " : ""
         def declinedDeterminer = PolishDeterminerDecliner.declineDeterminer(determiner)
         return numberPrefix + declinedDeterminer + " " + adjective.declineBeforeNoun() + noun.noun
     }

@@ -14,7 +14,7 @@ import static com.gk.dfm.domain.verb.german.objects.Case.*
 class GermanDeterminerDecliner {
 
     private static final Map<Determiner, Map<Case, Map<NumberAndGender, String>>> DECLENSION_MAP = [
-            (DEFINITE_ARTICLE)  : [
+            (DEFINITE_ARTICLE)     : [
                     (NOMINATIVE): [
                             (MASCULINE_SINGULAR): "der",
                             (NEUTER_SINGULAR)   : "das",
@@ -40,7 +40,7 @@ class GermanDeterminerDecliner {
                             (PLURAL)            : "der",
                     ],
             ],
-            (DIESER)            : [
+            (DIESER)               : [
                     (NOMINATIVE): [
                             (MASCULINE_SINGULAR): "dieser",
                             (NEUTER_SINGULAR)   : "dieses",
@@ -66,7 +66,7 @@ class GermanDeterminerDecliner {
                             (PLURAL)            : "dieser",
                     ],
             ],
-            (JEDER)             : [
+            (JEDER)                : [
                     (NOMINATIVE): [
                             (MASCULINE_SINGULAR): "jeder",
                             (NEUTER_SINGULAR)   : "jedes",
@@ -88,7 +88,7 @@ class GermanDeterminerDecliner {
                             (FEMININE_SINGULAR) : "jeder",
                     ],
             ],
-            (ALLE)              : [
+            (ALLE)                 : [
                     (NOMINATIVE): [
                             (PLURAL): "alle",
                     ],
@@ -102,7 +102,7 @@ class GermanDeterminerDecliner {
                             (PLURAL): "aller",
                     ],
             ],
-            (JENER)             : [
+            (JENER)                : [
                     (NOMINATIVE): [
                             (MASCULINE_SINGULAR): "jener",
                             (NEUTER_SINGULAR)   : "jenes",
@@ -128,7 +128,7 @@ class GermanDeterminerDecliner {
                             (PLURAL)            : "jener",
                     ],
             ],
-            (SOLCHER)           : [
+            (SOLCHER)              : [
                     (NOMINATIVE): [
                             (MASCULINE_SINGULAR): "solcher",
                             (NEUTER_SINGULAR)   : "solches",
@@ -154,7 +154,7 @@ class GermanDeterminerDecliner {
                             (PLURAL)            : "solcher",
                     ],
             ],
-            (WELCHER)           : [
+            (WELCHER)              : [
                     (NOMINATIVE): [
                             (MASCULINE_SINGULAR): "welcher",
                             (NEUTER_SINGULAR)   : "welches",
@@ -180,7 +180,7 @@ class GermanDeterminerDecliner {
                             (PLURAL)            : "welcher",
                     ],
             ],
-            (INDEFINITE_ARTICLE): [
+            (INDEFINITE_ARTICLE)   : [
                     (NOMINATIVE): [
                             (MASCULINE_SINGULAR): "ein",
                             (NEUTER_SINGULAR)   : "ein",
@@ -202,7 +202,7 @@ class GermanDeterminerDecliner {
                             (FEMININE_SINGULAR) : "einer",
                     ],
             ],
-            (KEIN)              : [
+            (KEIN)                 : [
                     (NOMINATIVE): [
                             (MASCULINE_SINGULAR): "kein",
                             (NEUTER_SINGULAR)   : "kein",
@@ -228,7 +228,33 @@ class GermanDeterminerDecliner {
                             (PLURAL)            : "keiner",
                     ],
             ],
-            (EINIGE)            : [
+            (PLURAL_2ND_POSSESSIVE): [
+                    (NOMINATIVE): [
+                            (MASCULINE_SINGULAR): "euer",
+                            (NEUTER_SINGULAR)   : "euer",
+                            (FEMININE_SINGULAR) : "eure",
+                            (PLURAL)            : "eure",
+                    ],
+                    (ACCUSATIVE): [
+                            (MASCULINE_SINGULAR): "euren",
+                            (NEUTER_SINGULAR)   : "euer",
+                            (FEMININE_SINGULAR) : "eure",
+                            (PLURAL)            : "eure",
+                    ],
+                    (DATIVE)    : [
+                            (MASCULINE_SINGULAR): "eurem",
+                            (NEUTER_SINGULAR)   : "eurem",
+                            (FEMININE_SINGULAR) : "eurer",
+                            (PLURAL)            : "euren",
+                    ],
+                    (GENITIVE)  : [
+                            (MASCULINE_SINGULAR): "eures",
+                            (NEUTER_SINGULAR)   : "eures",
+                            (FEMININE_SINGULAR) : "eurer",
+                            (PLURAL)            : "eurer",
+                    ],
+            ],
+            (EINIGE)               : [
                     (NOMINATIVE): [
                             (PLURAL): "einige",
                     ],
@@ -242,7 +268,7 @@ class GermanDeterminerDecliner {
                             (PLURAL): "einiger",
                     ],
             ],
-            (MEHRERE)           : [
+            (MEHRERE)              : [
                     (NOMINATIVE): [
                             (PLURAL): "mehrere",
                     ],
@@ -256,7 +282,7 @@ class GermanDeterminerDecliner {
                             (PLURAL): "mehrerer",
                     ],
             ],
-            (VIELE)             : [
+            (VIELE)                : [
                     (NOMINATIVE): [
                             (PLURAL): "viele",
                     ],
@@ -270,7 +296,7 @@ class GermanDeterminerDecliner {
                             (PLURAL): "vieler",
                     ],
             ],
-            (WENIGE)            : [
+            (WENIGE)               : [
                     (NOMINATIVE): [
                             (PLURAL): "viele",
                     ],
@@ -328,7 +354,7 @@ class GermanDeterminerDecliner {
     static Optional<String> declineDeterminer(Determiner determiner, NumberAndGender objectNumberAndGender, Case objectCase) {
         if (determiner == NO_DETERMINER) {
             return Optional.empty()
-        } else if (determiner.possessivePronoun) {
+        } else if (determiner.possessivePronoun && determiner != PLURAL_2ND_POSSESSIVE) {
             def stem = POSSESSIVE_PRONOUN_TO_STEM[determiner]
             def ending = POSSESSIVE_PRONOUN_TO_ENDING[objectCase][objectNumberAndGender]
             return Optional.of(stem + ending)

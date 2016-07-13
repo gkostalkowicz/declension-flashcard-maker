@@ -11,32 +11,32 @@ import static com.gk.dfm.domain.preposition.Preposition.*
 class PolishPrepositionDecliner {
 
     static String createExpression(Preposition preposition, SentenceObject object) {
-        return prepositionToPolish(preposition) + " " + object.polishObject.decline()
+        return prepositionToPolish(preposition) + ", " + object.polishObject.decline()
     }
 
     private static String prepositionToPolish(Preposition preposition) {
         switch (preposition) {
             case AUS:
-                return "z"
+                return "z(ze środka)"
             case AUSSER:
-                return "poza, oprócz"
+                return "poza/oprócz"
             case BEI:
                 return "u"
             case GEGENUEBER:
                 return "naprzeciwko"
             case MIT:
-                return "z"
+                return "z(czymś/kimś)"
             case NACH:
-                return "do (miejsca)"
+                return "do(miejsca)"
             case SEIT:
-                return "od (momentu)"
+                return "od(momentu)"
             case VON:
-                return "od"
+                return "od,z(ogólnie)"
             case ZU:
-                return "do (osoby)"
+                return "do(osoby)"
 
             case BIS:
-                return "do (od-do)"
+                return "do(od-do)"
             case DURCH:
                 return "przez"
             case ENTLANG:
@@ -48,7 +48,7 @@ class PolishPrepositionDecliner {
             case OHNE:
                 return "bez"
             case UM:
-                return "o, wokół"
+                return "o/wokół"
 
             default:
                 throw new RuntimeException("Unknown preposition: $preposition")
