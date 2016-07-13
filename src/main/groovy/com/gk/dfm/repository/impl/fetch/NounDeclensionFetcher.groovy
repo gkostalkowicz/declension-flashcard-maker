@@ -19,8 +19,6 @@ class NounDeclensionFetcher {
     private static final int EXPECTED_TABLE_CNT = 1
     private static final int TABLE_IDX = 0
     private static final int EXPECTED_ROW_CNT = 6
-    private static final int DATIVE_ROW_IDX = 4
-    private static final int ACCUSATIVE_ROW_IDX = 3
     private static final int EXPECTED_COLUMN_CNT = 5
     private static final int CASE_NAME_COLUMN_IDX = 0
     private static final int SINGULAR_COLUMN_IDX = 2
@@ -49,8 +47,10 @@ class NounDeclensionFetcher {
         }
 
         def declension = new NounDeclension()
-        addDeclinedNouns(Case.DATIVE, table.child(DATIVE_ROW_IDX), "Dativ", declension)
-        addDeclinedNouns(Case.ACCUSATIVE, table.child(ACCUSATIVE_ROW_IDX), "Akkusativ", declension)
+        addDeclinedNouns(Case.NOMINATIVE, table.child(2), "Nominativ", declension)
+        addDeclinedNouns(Case.ACCUSATIVE, table.child(3), "Akkusativ", declension)
+        addDeclinedNouns(Case.DATIVE, table.child(4), "Dativ", declension)
+        addDeclinedNouns(Case.GENITIVE, table.child(5), "Genitiv", declension)
         return declension
     }
 

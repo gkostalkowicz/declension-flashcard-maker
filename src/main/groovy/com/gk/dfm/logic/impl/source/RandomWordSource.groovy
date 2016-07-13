@@ -1,4 +1,4 @@
-package com.gk.dfm.logic
+package com.gk.dfm.logic.impl.source
 
 import com.gk.dfm.domain.object.ObjectClass
 import com.gk.dfm.domain.object.SentenceObject
@@ -6,11 +6,9 @@ import com.gk.dfm.domain.object.adjective.Adjective
 import com.gk.dfm.domain.object.noun.Noun
 import com.gk.dfm.domain.object.nounobject.NounObject
 import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
+import com.gk.dfm.domain.preposition.Preposition
 import com.gk.dfm.domain.subject.Subject
 import com.gk.dfm.domain.verb.Verb
-import com.gk.dfm.logic.impl.DeterminerPicker
-import com.gk.dfm.logic.impl.NounPicker
-import com.gk.dfm.logic.impl.RandomUtil
 
 /**
  * Created by Mr. President on 6/19/2016.
@@ -31,7 +29,7 @@ class RandomWordSource {
     }
 
     Subject pickSubject() {
-        return RandomUtil.pickElement(Subject.values() as Subject[])
+        return RandomUtil.pickElement(Subject.values())
     }
 
     Verb pickVerb() {
@@ -55,4 +53,9 @@ class RandomWordSource {
 
         return new NounObject(noun, determiner, number, adjective)
     }
+
+    Preposition pickPreposition() {
+        return RandomUtil.pickElement(Preposition.values())
+    }
+
 }

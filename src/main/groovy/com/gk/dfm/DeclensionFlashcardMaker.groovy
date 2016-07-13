@@ -3,7 +3,7 @@ package com.gk.dfm
 import com.gk.dfm.input.NounAndAdjectiveListReader
 import com.gk.dfm.input.VerbListReader
 import com.gk.dfm.logic.FlashcardGenerator
-import com.gk.dfm.logic.RandomWordSource
+import com.gk.dfm.logic.impl.source.RandomWordSource
 import com.gk.dfm.repository.AdjectiveDeclensionRepository
 import com.gk.dfm.repository.NounDeclensionRepository
 import com.gk.dfm.repository.VerbConjugationRepository
@@ -41,7 +41,7 @@ class DeclensionFlashcardMaker {
             randomWordSource.setNouns(nounsAndAdjectives.nouns)
             randomWordSource.setAdjectives(nounsAndAdjectives.adjectives)
 
-            def flashcardGenerator = new FlashcardGenerator(randomWordSource: randomWordSource)
+            def flashcardGenerator = new FlashcardGenerator(randomWordSource)
 
             def outputStream = new BufferedWriter(new FileWriter(outputFilename))
             try {

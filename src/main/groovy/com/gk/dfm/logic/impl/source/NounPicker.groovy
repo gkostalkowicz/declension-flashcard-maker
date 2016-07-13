@@ -1,4 +1,4 @@
-package com.gk.dfm.logic.impl
+package com.gk.dfm.logic.impl.source
 
 import com.gk.dfm.domain.object.ObjectClass
 import com.gk.dfm.domain.object.noun.Noun

@@ -1,4 +1,4 @@
-package com.gk.dfm.logic.impl
+package com.gk.dfm.logic.impl.source
 
 import com.gk.dfm.domain.object.nounobject.Determiner
 import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
