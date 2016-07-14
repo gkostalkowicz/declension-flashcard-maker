@@ -1,4 +1,4 @@
-package com.gk.dfm.domain.verb.german
+package com.gk.dfm.render.german
 
 /**
  * Created by Mr. President on 03.07.2016.

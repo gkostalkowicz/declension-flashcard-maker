@@ -49,7 +49,7 @@ class RandomWordSource {
             throw new RuntimeException("Empty adjective list")
         }
         def adjective = RandomUtil.trueWithChance(ADD_ADJECTIVE_TO_NOUN_CHANCE) ?
-                RandomUtil.pickElement(adjectives) : Adjective.NULL_ADJECTIVE
+                RandomUtil.pickElement(adjectives) : null
 
         return new NounObject(noun, determiner, number, adjective)
     }

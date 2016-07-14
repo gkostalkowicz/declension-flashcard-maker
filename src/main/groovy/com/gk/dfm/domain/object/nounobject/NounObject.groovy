@@ -19,9 +19,9 @@ class NounObject implements SentenceObject {
 
     NounObject(Noun noun, Determiner determiner, ObjectNumber number, Adjective adjective) {
         polishNounObject = new PolishNounObject(noun: noun.polishNoun, number: number, determiner: determiner,
-                adjective: adjective.polishAdjective)
+                adjective: adjective == null ? null : adjective.polishAdjective)
         germanNounObject = new GermanNounObject(noun: noun.germanNoun, number: number, determiner: determiner,
-                adjective: adjective.germanAdjective)
+                adjective: adjective == null ? null : adjective.germanAdjective)
     }
 
     PolishObject getPolishObject() {

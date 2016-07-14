@@ -5,8 +5,8 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvSchema
 import com.gk.dfm.domain.object.ObjectClass
 import com.gk.dfm.domain.object.adjective.Adjective
-import com.gk.dfm.domain.object.adjective.german.RealGermanAdjective
-import com.gk.dfm.domain.object.adjective.polish.RealPolishAdjective
+import com.gk.dfm.domain.object.adjective.german.GermanAdjective
+import com.gk.dfm.domain.object.adjective.polish.PolishAdjective
 import com.gk.dfm.domain.object.noun.Noun
 import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.GermanNoun
@@ -150,10 +150,10 @@ class NounAndAdjectiveListReader {
         def separatorIndex = germanColumn.indexOf(ADJECTIVE_VERSIONS_SEPARATOR)
         def germanAdjective = separatorIndex == -1 ? germanColumn : germanColumn.substring(0, separatorIndex)
         return new Adjective(
-                polishAdjective: new RealPolishAdjective(
+                polishAdjective: new PolishAdjective(
                         adjective: polishColumn
                 ),
-                germanAdjective: new RealGermanAdjective(
+                germanAdjective: new GermanAdjective(
                         adjective: germanAdjective,
                         declension: adjectiveDeclensionRepository.getDeclension(germanColumn)
                 )

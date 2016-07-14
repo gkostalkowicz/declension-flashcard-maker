@@ -1,4 +1,4 @@
-package com.gk.dfm.domain.object.nounobject.german
+package com.gk.dfm.render.german
 
 import com.gk.dfm.domain.object.NumberAndGender
 import com.gk.dfm.domain.object.nounobject.Determiner
@@ -11,7 +11,7 @@ import static com.gk.dfm.domain.verb.german.objects.Case.*
 /**
  * Created by Mr. President on 10.07.2016.
  */
-class GermanDeterminerDecliner {
+class DeterminerDecliner {
 
     private static final Map<Determiner, Map<Case, Map<NumberAndGender, String>>> DECLENSION_MAP = [
             (DEFINITE_ARTICLE)     : [
@@ -351,7 +351,8 @@ class GermanDeterminerDecliner {
             ],
     ]
 
-    static Optional<String> declineDeterminer(Determiner determiner, NumberAndGender objectNumberAndGender, Case objectCase) {
+    static Optional<String> declineDeterminer(Determiner determiner, NumberAndGender objectNumberAndGender,
+                                              Case objectCase) {
         if (determiner == NO_DETERMINER) {
             return Optional.empty()
         } else if (determiner.possessivePronoun && determiner != PLURAL_2ND_POSSESSIVE) {

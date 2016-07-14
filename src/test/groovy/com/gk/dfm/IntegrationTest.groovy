@@ -1,13 +1,13 @@
-package com.gk.dfm.logic
+package com.gk.dfm
 
+import com.gk.dfm.domain.expression.Sentence
 import com.gk.dfm.domain.object.NumberAndGender
 import com.gk.dfm.domain.object.ObjectClass
 import com.gk.dfm.domain.object.SentenceObject
-import com.gk.dfm.domain.object.adjective.Adjective
 import com.gk.dfm.domain.object.adjective.german.AdjectiveDeclension
 import com.gk.dfm.domain.object.adjective.german.DeclensionType
-import com.gk.dfm.domain.object.adjective.german.RealGermanAdjective
-import com.gk.dfm.domain.object.adjective.polish.RealPolishAdjective
+import com.gk.dfm.domain.object.adjective.german.GermanAdjective
+import com.gk.dfm.domain.object.adjective.polish.PolishAdjective
 import com.gk.dfm.domain.object.noun.Noun
 import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.GermanNoun
@@ -28,32 +28,37 @@ import com.gk.dfm.domain.verb.german.objects.GermanDeclensionTemplate
 import com.gk.dfm.domain.verb.german.objects.ObjectDefinition
 import com.gk.dfm.domain.verb.german.objects.ObjectPlaceholder
 import com.gk.dfm.domain.verb.polish.PolishVerb
-import com.gk.dfm.logic.impl.FlashcardExpressionGenerator
+import com.gk.dfm.logic.impl.ExpressionGenerator
 import com.gk.dfm.logic.impl.source.RandomWordSource
+import com.gk.dfm.render.german.GermanRenderer
+import com.gk.dfm.render.polish.PolishRenderer
 import org.junit.Test
 
 /**
  * Created by Mr. President on 6/19/2016.
  */
-class FlashcardExpressionGeneratorTest {
+class IntegrationTest {
 
+    PolishRenderer polishRenderer = new PolishRenderer()
+    GermanRenderer germanRenderer = new GermanRenderer()
+    
     @Test
-    void "given a subject, verb and object when generateSentence then generate 1 valid flashcard"() {
+    void "given a subject, verb and object when generate and render then generate and render 1 valid flashcard"() {
         given:
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
         def object = createNounObject()
 
         when:
-        def flashcard = generateSentence(subject, verb, object)
+        def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert flashcard.polish == "ja, miec (co? (określony) pies)"
-        assert flashcard.german == "ich habe den Hund"
+        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (określony) pies)"
+        assert germanRenderer.renderSentence(sentence) == "ich habe den Hund"
     }
 
     @Test
-    void "given no determiner when generateSentence then generate a flashcard without a determiner"() {
+    void "given no determiner when renderSentence then render a flashcard without a determiner"() {
         given:
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
@@ -62,15 +67,15 @@ class FlashcardExpressionGeneratorTest {
         object.polishNounObject.determiner = Determiner.NO_DETERMINER
 
         when:
-        def flashcard = generateSentence(subject, verb, object)
+        def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert flashcard.polish == "ja, miec (co? (-) pies)"
-        assert flashcard.german == "ich habe Hund"
+        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (-) pies)"
+        assert germanRenderer.renderSentence(sentence) == "ich habe Hund"
     }
 
     @Test
-    void "given a verb with separable prefix when generateSentence then generate a flashcard ending with the particle"() {
+    void "given a verb with separable prefix when renderSentence then render a flashcard ending with the particle"() {
         given:
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
@@ -79,15 +84,15 @@ class FlashcardExpressionGeneratorTest {
         def object = createNounObject()
 
         when:
-        def flashcard = generateSentence(subject, verb, object)
+        def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert flashcard.polish == "ja, miec (co? (określony) pies)"
-        assert flashcard.german == "ich habe den Hund auf"
+        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (określony) pies)"
+        assert germanRenderer.renderSentence(sentence) == "ich habe den Hund auf"
     }
 
     @Test
-    void "given a verb with an infix when generateSentence then generate a flashcard with the infix"() {
+    void "given a verb with an infix when renderSentence then render a flashcard with the infix"() {
         given:
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
@@ -95,15 +100,15 @@ class FlashcardExpressionGeneratorTest {
         def object = createNounObject()
 
         when:
-        def flashcard = generateSentence(subject, verb, object)
+        def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert flashcard.polish == "ja, miec (co? (określony) pies)"
-        assert flashcard.german == "ich habe auch den Hund"
+        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (określony) pies)"
+        assert germanRenderer.renderSentence(sentence) == "ich habe auch den Hund"
     }
 
     @Test
-    void "given a plural object when generateSentence then generate a flashcard with plural objects"() {
+    void "given a plural object when renderSentence then render a flashcard with plural objects"() {
         given:
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
@@ -113,15 +118,15 @@ class FlashcardExpressionGeneratorTest {
         object.germanNounObject.noun.declension.put(ObjectNumber.PLURAL, Case.ACCUSATIVE, "Hunde")
 
         when:
-        def flashcard = generateSentence(subject, verb, object)
+        def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert flashcard.polish == "ja, miec (co? (wiele) (określony) pies)"
-        assert flashcard.german == "ich habe die Hunde"
+        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (wiele) (określony) pies)"
+        assert germanRenderer.renderSentence(sentence) == "ich habe die Hunde"
     }
 
     @Test
-    void "given a preposition and an article when generateSentence then generate a flashcard with a contraction"() {
+    void "given a preposition and an article when renderSentence then render a flashcard with a contraction"() {
         given:
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
@@ -136,35 +141,35 @@ class FlashcardExpressionGeneratorTest {
         object.germanNounObject.noun.declension.put(ObjectNumber.SINGULAR, Case.ACCUSATIVE, "Kino")
 
         when:
-        def flashcard = generateSentence(subject, verb, object)
+        def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert flashcard.polish == "ja, ide do (gdzie? (określony) kino)"
-        assert flashcard.german == "ich gehe ins Kino"
+        assert polishRenderer.renderSentence(sentence) == "ja, ide do (gdzie? (określony) kino)"
+        assert germanRenderer.renderSentence(sentence) == "ich gehe ins Kino"
     }
 
     @Test
-    void "given an adjective when generateSentence then generate a flashcard with the adjective"() {
+    void "given an adjective when renderSentence then render a flashcard with the adjective"() {
         given:
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
         def object = createNounObject()
-        object.polishNounObject.adjective = new RealPolishAdjective(adjective: "ciemny")
-        object.germanNounObject.adjective = new RealGermanAdjective(adjective: "dunkel",
+        object.polishNounObject.adjective = new PolishAdjective(adjective: "ciemny")
+        object.germanNounObject.adjective = new GermanAdjective(adjective: "dunkel",
                 declension: new AdjectiveDeclension())
-        (object.germanNounObject.adjective as RealGermanAdjective).declension.put(DeclensionType.WEAK,
+        (object.germanNounObject.adjective as GermanAdjective).declension.put(DeclensionType.WEAK,
                 NumberAndGender.MASCULINE_SINGULAR, Case.ACCUSATIVE, "dunklen")
 
         when:
-        def flashcard = generateSentence(subject, verb, object)
+        def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert flashcard.polish == "ja, miec (co? (określony) ciemny pies)"
-        assert flashcard.german == "ich habe den dunklen Hund"
+        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (określony) ciemny pies)"
+        assert germanRenderer.renderSentence(sentence) == "ich habe den dunklen Hund"
     }
 
     @Test
-    void "given an object when generateNominativeExpression then generate a valid nominative expression"() {
+    void "given an object when renderNominativeExpression then render a valid nominative expression"() {
         given:
         def nounDeclension = new NounDeclension()
         nounDeclension.put(ObjectNumber.SINGULAR, Case.NOMINATIVE, "Hund")
@@ -181,20 +186,20 @@ class FlashcardExpressionGeneratorTest {
                 ),
                 Determiner.DEFINITE_ARTICLE,
                 ObjectNumber.SINGULAR,
-                Adjective.NULL_ADJECTIVE)
+                null)
         def randomWordSource = [pickObject: { object }] as RandomWordSource
-        def generator = new FlashcardExpressionGenerator(randomWordSource)
+        def generator = new ExpressionGenerator(randomWordSource)
 
         when:
-        def flashcard = generator.generateNominativeExpression()
+        def expression = generator.generateNominativeExpression()
 
         then:
-        assert flashcard.polish == "(określony) pies"
-        assert flashcard.german == "der Hund"
+        assert polishRenderer.renderNominativeExpression(expression) == "(określony) pies"
+        assert germanRenderer.renderNominativeExpression(expression) == "der Hund"
     }
 
     @Test
-    void "given an object and preposition when generatePrepositionExpression then generate a valid preposition expression"() {
+    void "given an object and preposition when renderPrepositionExpression then render a valid preposition expression"() {
         given:
         def nounDeclension = new NounDeclension()
         nounDeclension.put(ObjectNumber.SINGULAR, Case.DATIVE, "Hund")
@@ -211,23 +216,23 @@ class FlashcardExpressionGeneratorTest {
                 ),
                 Determiner.DEFINITE_ARTICLE,
                 ObjectNumber.SINGULAR,
-                Adjective.NULL_ADJECTIVE)
+                null)
         def preposition = Preposition.MIT
         def randomWordSource = [
                 pickObject     : { object },
                 pickPreposition: { preposition }
         ] as RandomWordSource
-        def generator = new FlashcardExpressionGenerator(randomWordSource)
+        def generator = new ExpressionGenerator(randomWordSource)
 
         when:
-        def flashcard = generator.generatePrepositionExpression()
+        def expression = generator.generatePrepositionExpression()
 
         then:
-        assert flashcard.polish == "z(czymś/kimś), (określony) pies"
-        assert flashcard.german == "mit dem Hund"
+        assert polishRenderer.renderPrepositionExpression(expression) == "z(czymś/kimś), (określony) pies"
+        assert germanRenderer.renderPrepositionExpression(expression) == "mit dem Hund"
     }
 
-    private static generateSentence(Subject subject, Verb verb, SentenceObject object) {
+    private static Sentence generateSentence(Subject subject, Verb verb, SentenceObject object) {
         given:
         def randomWordSourceStub = [
                 pickSubject: { subject },
@@ -235,7 +240,7 @@ class FlashcardExpressionGeneratorTest {
                 pickObject : { object }
         ] as RandomWordSource
 
-        def flashcardGenerator = new FlashcardExpressionGenerator(randomWordSourceStub)
+        def flashcardGenerator = new ExpressionGenerator(randomWordSourceStub)
 
         when:
         return flashcardGenerator.generateSentence()
@@ -282,7 +287,7 @@ class FlashcardExpressionGeneratorTest {
                 ),
                 Determiner.DEFINITE_ARTICLE,
                 ObjectNumber.SINGULAR,
-                Adjective.NULL_ADJECTIVE
+                null
         )
     }
 
