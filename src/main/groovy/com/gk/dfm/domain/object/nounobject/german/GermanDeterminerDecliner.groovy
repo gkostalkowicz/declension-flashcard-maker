@@ -298,16 +298,16 @@ class GermanDeterminerDecliner {
             ],
             (WENIGE)               : [
                     (NOMINATIVE): [
-                            (PLURAL): "viele",
+                            (PLURAL): "wenige",
                     ],
                     (ACCUSATIVE): [
-                            (PLURAL): "viele",
+                            (PLURAL): "wenige",
                     ],
                     (DATIVE)    : [
-                            (PLURAL): "vielen",
+                            (PLURAL): "wenigen",
                     ],
                     (GENITIVE)  : [
-                            (PLURAL): "vieler",
+                            (PLURAL): "weniger",
                     ],
             ],
     ]
