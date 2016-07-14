@@ -3,16 +3,16 @@ package com.gk.dfm
 import com.gk.dfm.domain.expression.NominativeExpression
 import com.gk.dfm.domain.expression.PrepositionExpression
 import com.gk.dfm.domain.expression.Sentence
+import com.gk.dfm.generate.RandomExpressionGenerator
+import com.gk.dfm.generate.impl.source.RandomWordSource
+import com.gk.dfm.inflection.AdjectiveDeclensionRepository
+import com.gk.dfm.inflection.NounDeclensionRepository
+import com.gk.dfm.inflection.VerbConjugationRepository
 import com.gk.dfm.input.NounAndAdjectiveListReader
 import com.gk.dfm.input.VerbListReader
-import com.gk.dfm.logic.RandomExpressionGenerator
-import com.gk.dfm.logic.impl.source.RandomWordSource
 import com.gk.dfm.render.Renderer
 import com.gk.dfm.render.german.GermanRenderer
 import com.gk.dfm.render.polish.PolishRenderer
-import com.gk.dfm.repository.AdjectiveDeclensionRepository
-import com.gk.dfm.repository.NounDeclensionRepository
-import com.gk.dfm.repository.VerbConjugationRepository
 
 /**
  * Created by Mr. President on 6/12/2016.

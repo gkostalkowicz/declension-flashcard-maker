@@ -6,8 +6,8 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema
 import com.gk.dfm.domain.verb.Verb
 import com.gk.dfm.domain.verb.german.GermanVerb
 import com.gk.dfm.domain.verb.polish.PolishVerb
-import com.gk.dfm.repository.VerbConjugationRepository
-import com.gk.dfm.repository.impl.fetch.FetchException
+import com.gk.dfm.inflection.VerbConjugationRepository
+import com.gk.dfm.inflection.impl.fetch.FetchException
 import com.gk.dfm.util.CharsetConstants
 import groovy.util.logging.Slf4j
 

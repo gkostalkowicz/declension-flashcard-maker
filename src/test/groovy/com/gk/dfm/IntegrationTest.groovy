@@ -28,8 +28,8 @@ import com.gk.dfm.domain.verb.german.objects.GermanDeclensionTemplate
 import com.gk.dfm.domain.verb.german.objects.ObjectDefinition
 import com.gk.dfm.domain.verb.german.objects.ObjectPlaceholder
 import com.gk.dfm.domain.verb.polish.PolishVerb
-import com.gk.dfm.logic.impl.ExpressionGenerator
-import com.gk.dfm.logic.impl.source.RandomWordSource
+import com.gk.dfm.generate.impl.ExpressionGenerator
+import com.gk.dfm.generate.impl.source.RandomWordSource
 import com.gk.dfm.render.german.GermanRenderer
 import com.gk.dfm.render.polish.PolishRenderer
 import org.junit.Test

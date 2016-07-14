@@ -11,9 +11,9 @@ import com.gk.dfm.domain.object.noun.Noun
 import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.GermanNoun
 import com.gk.dfm.domain.object.noun.polish.PolishNoun
-import com.gk.dfm.repository.AdjectiveDeclensionRepository
-import com.gk.dfm.repository.NounDeclensionRepository
-import com.gk.dfm.repository.impl.fetch.FetchException
+import com.gk.dfm.inflection.AdjectiveDeclensionRepository
+import com.gk.dfm.inflection.NounDeclensionRepository
+import com.gk.dfm.inflection.impl.fetch.FetchException
 import com.gk.dfm.util.CharsetConstants
 import groovy.util.logging.Slf4j
 
