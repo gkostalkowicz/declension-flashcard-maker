@@ -4,6 +4,7 @@ import com.gk.dfm.domain.expression.Sentence
 import com.gk.dfm.domain.object.NumberAndGender
 import com.gk.dfm.domain.object.ObjectClass
 import com.gk.dfm.domain.object.SentenceObject
+import com.gk.dfm.domain.object.adjective.Adjective
 import com.gk.dfm.domain.object.adjective.german.AdjectiveDeclension
 import com.gk.dfm.domain.object.adjective.german.DeclensionType
 import com.gk.dfm.domain.object.adjective.german.GermanAdjective
@@ -15,7 +16,7 @@ import com.gk.dfm.domain.object.noun.german.NounDeclension
 import com.gk.dfm.domain.object.noun.polish.PolishNoun
 import com.gk.dfm.domain.object.nounobject.Determiner
 import com.gk.dfm.domain.object.nounobject.NounObject
-import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
+import com.gk.dfm.domain.object.nounobject.ObjectNumber
 import com.gk.dfm.domain.preposition.Preposition
 import com.gk.dfm.domain.subject.Subject
 import com.gk.dfm.domain.verb.Verb
@@ -41,7 +42,7 @@ class IntegrationTest {
 
     PolishRenderer polishRenderer = new PolishRenderer()
     GermanRenderer germanRenderer = new GermanRenderer()
-    
+
     @Test
     void "given a subject, verb and object when generate and render then generate and render 1 valid flashcard"() {
         given:
@@ -63,8 +64,7 @@ class IntegrationTest {
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
         def object = createNounObject()
-        object.germanNounObject.determiner = Determiner.NO_DETERMINER
-        object.polishNounObject.determiner = Determiner.NO_DETERMINER
+        object.determiner = Determiner.NO_DETERMINER
 
         when:
         def sentence = generateSentence(subject, verb, object)
@@ -113,9 +113,8 @@ class IntegrationTest {
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
         def object = createNounObject()
-        object.polishNounObject.number = ObjectNumber.PLURAL
-        object.germanNounObject.number = ObjectNumber.PLURAL
-        object.germanNounObject.noun.declension.put(ObjectNumber.PLURAL, Case.ACCUSATIVE, "Hunde")
+        object.number = ObjectNumber.PLURAL
+        object.noun.germanNoun.declension.put(ObjectNumber.PLURAL, Case.ACCUSATIVE, "Hunde")
 
         when:
         def sentence = generateSentence(subject, verb, object)
@@ -135,10 +134,10 @@ class IntegrationTest {
         verb.germanVerb.verbInfinitive = "gehen"
         verb.germanVerb.conjugation.put(ConjugationPerson.SINGULAR_1ST, new ConjugatedVerb(coreVerb: "gehe"))
         verb.germanVerb.declensionTemplate.template = "in X"
-        object.polishNounObject.noun.noun = "kino"
-        object.germanNounObject.noun.noun = "Kino"
-        object.germanNounObject.noun.gender = Gender.NEUTER
-        object.germanNounObject.noun.declension.put(ObjectNumber.SINGULAR, Case.ACCUSATIVE, "Kino")
+        object.noun.polishNoun.noun = "kino"
+        object.noun.germanNoun.noun = "Kino"
+        object.noun.germanNoun.gender = Gender.NEUTER
+        object.noun.germanNoun.declension.put(ObjectNumber.SINGULAR, Case.ACCUSATIVE, "Kino")
 
         when:
         def sentence = generateSentence(subject, verb, object)
@@ -154,10 +153,12 @@ class IntegrationTest {
         def subject = Subject.SINGULAR_1ST
         def verb = createVerb()
         def object = createNounObject()
-        object.polishNounObject.adjective = new PolishAdjective(adjective: "ciemny")
-        object.germanNounObject.adjective = new GermanAdjective(adjective: "dunkel",
-                declension: new AdjectiveDeclension())
-        (object.germanNounObject.adjective as GermanAdjective).declension.put(DeclensionType.WEAK,
+        object.adjective = new Adjective(
+                polishAdjective: new PolishAdjective(adjective: "ciemny"),
+                germanAdjective: new GermanAdjective(adjective: "dunkel",
+                        declension: new AdjectiveDeclension()
+                ))
+        object.adjective.germanAdjective.declension.put(DeclensionType.WEAK,
                 NumberAndGender.MASCULINE_SINGULAR, Case.ACCUSATIVE, "dunklen")
 
         when:
@@ -174,7 +175,7 @@ class IntegrationTest {
         def nounDeclension = new NounDeclension()
         nounDeclension.put(ObjectNumber.SINGULAR, Case.NOMINATIVE, "Hund")
         def object = new NounObject(
-                new Noun(
+                noun: new Noun(
                         polishNoun: new PolishNoun(
                                 noun: "pies"
                         ),
@@ -184,9 +185,9 @@ class IntegrationTest {
                                 declension: nounDeclension),
                         objectClass: ObjectClass.ANYTHING
                 ),
-                Determiner.DEFINITE_ARTICLE,
-                ObjectNumber.SINGULAR,
-                null)
+                determiner: Determiner.DEFINITE_ARTICLE,
+                number: ObjectNumber.SINGULAR,
+                adjective: null)
         def randomWordSource = [pickObject: { object }] as RandomWordSource
         def generator = new ExpressionGenerator(randomWordSource)
 
@@ -204,7 +205,7 @@ class IntegrationTest {
         def nounDeclension = new NounDeclension()
         nounDeclension.put(ObjectNumber.SINGULAR, Case.DATIVE, "Hund")
         def object = new NounObject(
-                new Noun(
+                noun: new Noun(
                         polishNoun: new PolishNoun(
                                 noun: "pies"
                         ),
@@ -214,9 +215,9 @@ class IntegrationTest {
                                 declension: nounDeclension),
                         objectClass: ObjectClass.ANYTHING
                 ),
-                Determiner.DEFINITE_ARTICLE,
-                ObjectNumber.SINGULAR,
-                null)
+                determiner: Determiner.DEFINITE_ARTICLE,
+                number: ObjectNumber.SINGULAR,
+                adjective: null)
         def preposition = Preposition.MIT
         def randomWordSource = [
                 pickObject     : { object },
@@ -274,7 +275,7 @@ class IntegrationTest {
         nounDeclension.put(ObjectNumber.SINGULAR, Case.ACCUSATIVE, "Hund")
 
         return new NounObject(
-                new Noun(
+                noun: new Noun(
                         polishNoun: new PolishNoun(
                                 noun: "pies"
                         ),
@@ -285,9 +286,9 @@ class IntegrationTest {
                         ),
                         objectClass: ObjectClass.PERSON
                 ),
-                Determiner.DEFINITE_ARTICLE,
-                ObjectNumber.SINGULAR,
-                null
+                determiner: Determiner.DEFINITE_ARTICLE,
+                number: ObjectNumber.SINGULAR,
+                adjective: null
         )
     }
 
