@@ -2,7 +2,7 @@ package com.gk.dfm.inflection.impl.fetch
 
 import com.gk.dfm.domain.object.noun.german.Gender
 import com.gk.dfm.domain.object.noun.german.NounDeclension
-import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
+import com.gk.dfm.domain.object.nounobject.ObjectNumber
 import com.gk.dfm.domain.verb.german.objects.Case
 import com.google.common.base.CharMatcher
 import groovy.util.logging.Slf4j

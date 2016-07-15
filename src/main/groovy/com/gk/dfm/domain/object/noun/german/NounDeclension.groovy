@@ -1,7 +1,7 @@
 package com.gk.dfm.domain.object.noun.german
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
+import com.gk.dfm.domain.object.nounobject.ObjectNumber
 import com.gk.dfm.domain.verb.german.objects.Case
 import com.gk.dfm.util.Table
 

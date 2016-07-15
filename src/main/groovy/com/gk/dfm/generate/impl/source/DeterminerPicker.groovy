@@ -1,7 +1,7 @@
 package com.gk.dfm.generate.impl.source
 
 import com.gk.dfm.domain.object.nounobject.Determiner
-import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
+import com.gk.dfm.domain.object.nounobject.ObjectNumber
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 

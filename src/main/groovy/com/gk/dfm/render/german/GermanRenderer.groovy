@@ -5,10 +5,10 @@ import com.gk.dfm.domain.expression.PrepositionExpression
 import com.gk.dfm.domain.expression.Sentence
 import com.gk.dfm.domain.object.NumberAndGender
 import com.gk.dfm.domain.object.SentenceObject
+import com.gk.dfm.domain.object.adjective.Adjective
 import com.gk.dfm.domain.object.adjective.german.DeclensionType
-import com.gk.dfm.domain.object.adjective.german.GermanAdjective
 import com.gk.dfm.domain.object.nounobject.Determiner
-import com.gk.dfm.domain.object.nounobject.german.GermanNounObject
+import com.gk.dfm.domain.object.nounobject.NounObject
 import com.gk.dfm.domain.preposition.Preposition
 import com.gk.dfm.domain.subject.Subject
 import com.gk.dfm.domain.verb.german.objects.Case
@@ -16,7 +16,7 @@ import com.gk.dfm.domain.verb.german.objects.GermanDeclensionTemplate
 import com.gk.dfm.domain.verb.german.objects.ObjectPlaceholder
 import com.gk.dfm.render.Renderer
 
-import static com.gk.dfm.domain.preposition.Preposition.*
+import static com.gk.dfm.domain.preposition.Preposition.GEGENUEBER
 import static com.gk.dfm.domain.subject.Subject.*
 
 /**
@@ -24,7 +24,7 @@ import static com.gk.dfm.domain.subject.Subject.*
  */
 class GermanRenderer implements Renderer {
 
-    private static final Map<Subject, String> GERMAN_SUBJECT = [
+    private static final Map<Subject, String> SUBJECT_TEXT = [
             (SINGULAR_1ST)          : "ich",
             (SINGULAR_2ND)          : "du",
             (MASCULINE_SINGULAR_3RD): "er",
@@ -70,29 +70,30 @@ class GermanRenderer implements Renderer {
     @Override
     String renderPrepositionExpression(PrepositionExpression expression) {
         expression.with {
-            return renderPreposition(preposition) + " " + renderObject(object, preposition.objectCase)
+            def prepositionText = renderPreposition(preposition)
+            def object = renderObject(object, preposition.objectCase)
+            return preposition == GEGENUEBER ? object + " " + prepositionText : prepositionText + " " + object
         }
     }
 
     private static String renderObject(SentenceObject object, Case objectCase) {
-        def germanObject = object.germanObject
-        if (germanObject instanceof GermanNounObject) {
-            renderGermanNounObject(germanObject as GermanNounObject, objectCase)
+        if (object instanceof NounObject) {
+            renderNounObject(object as NounObject, objectCase)
         } else {
-            throw new RuntimeException("Unknown sentence object class: " + germanObject.class)
+            throw new RuntimeException("Unknown sentence object class: " + object.class)
         }
     }
 
-    private static String renderGermanNounObject(GermanNounObject object, Case objectCase) {
+    private static String renderNounObject(NounObject object, Case objectCase) {
         object.with {
-            def numberAndGender = NumberAndGender.get(number, noun.gender)
+            def numberAndGender = NumberAndGender.get(number, noun.germanNoun.gender)
 
             def optionalDeclinedDeterminer = renderDeterminer(determiner, numberAndGender, objectCase)
             def declinedDeterminer = optionalDeclinedDeterminer.map({ it + " " }).orElse("")
 
             def declinedAdjective = renderAdjective(adjective, DeclensionType.forDeterminer(determiner),
                     numberAndGender, objectCase)
-            def declinedNoun = noun.declension.get(number, objectCase)
+            def declinedNoun = noun.germanNoun.declension.get(number, objectCase)
 
             return declinedDeterminer + declinedAdjective + declinedNoun
         }
@@ -103,17 +104,17 @@ class GermanRenderer implements Renderer {
         DeterminerDecliner.declineDeterminer(determiner, objectNumberAndGender, objectCase)
     }
 
-    private static String renderAdjective(GermanAdjective adjective, DeclensionType declensionType,
+    private static String renderAdjective(Adjective adjective, DeclensionType declensionType,
                                           NumberAndGender numberAndGender, Case objectCase) {
         if (adjective == null) {
             return ""
         } else {
-            return adjective.declension.get(declensionType, numberAndGender, objectCase) + " "
+            return adjective.germanAdjective.declension.get(declensionType, numberAndGender, objectCase) + " "
         }
     }
 
     private static String renderSubject(Subject subject) {
-        return GERMAN_SUBJECT[subject]
+        return SUBJECT_TEXT[subject]
     }
 
     String renderDeclensionTemplate(GermanDeclensionTemplate declensionTemplate,
@@ -130,44 +131,7 @@ class GermanRenderer implements Renderer {
     }
 
     private static String renderPreposition(Preposition preposition) {
-        switch (preposition) {
-            case AUS:
-                return "aus"
-            case AUSSER:
-                return "außer"
-            case BEI:
-                return "bei"
-            case GEGENUEBER:
-                return "gegenüber"
-            case MIT:
-                return "mit"
-            case NACH:
-                return "nach"
-            case SEIT:
-                return "seit"
-            case VON:
-                return "von"
-            case ZU:
-                return "zu"
-
-            case BIS:
-                return "bis"
-            case DURCH:
-                return "durch"
-            case ENTLANG:
-                return "entlang"
-            case FUER:
-                return "für"
-            case GEGEN:
-                return "gegen"
-            case OHNE:
-                return "ohne"
-            case UM:
-                return "um"
-
-            default:
-                throw new RuntimeException("Unknown preposition: $preposition")
-        }
+        return GermanUtil.prepositionToText(preposition)
     }
 
 }

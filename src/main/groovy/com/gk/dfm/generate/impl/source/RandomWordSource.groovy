@@ -5,7 +5,7 @@ import com.gk.dfm.domain.object.SentenceObject
 import com.gk.dfm.domain.object.adjective.Adjective
 import com.gk.dfm.domain.object.noun.Noun
 import com.gk.dfm.domain.object.nounobject.NounObject
-import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
+import com.gk.dfm.domain.object.nounobject.ObjectNumber
 import com.gk.dfm.domain.preposition.Preposition
 import com.gk.dfm.domain.subject.Subject
 import com.gk.dfm.domain.verb.Verb
@@ -51,7 +51,7 @@ class RandomWordSource {
         def adjective = RandomUtil.trueWithChance(ADD_ADJECTIVE_TO_NOUN_CHANCE) ?
                 RandomUtil.pickElement(adjectives) : null
 
-        return new NounObject(noun, determiner, number, adjective)
+        return new NounObject(noun: noun, determiner: determiner, number: number, adjective: adjective)
     }
 
     Preposition pickPreposition() {

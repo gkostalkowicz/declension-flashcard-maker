@@ -1,7 +1,7 @@
 package com.gk.dfm.domain.object
 
 import com.gk.dfm.domain.object.noun.german.Gender
-import com.gk.dfm.domain.object.nounobject.german.ObjectNumber
+import com.gk.dfm.domain.object.nounobject.ObjectNumber
 
 /**
  * Created by Mr. President on 6/19/2016.
