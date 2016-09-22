@@ -1,10 +1,11 @@
-pan	der Herr / die Herren	person rzeczownik
-pani	die Frau / die Frauen	person rzeczownik
-informatyk	der Informatiker / die Informatiker	person rzeczownik
-zawod	der Beruf / die Berufe	ding rzeczownik
-przypadek	der Zufall / die Zufälle	ding rzeczownik
-adres	die Adresse / die Adressen	ding rzeczownik
-niebieski	blau	przymiotnik
-ciemny	dunkel	przymiotnik
-ciemnozielony	dunkelgrün	przymiotnik
-brazowy	braun	przymiotnik
+pan	der Herr / die Herren	person noun
+pani	die Frau / die Frauen	person noun
+kierowca	der Fahrer / die Fahrer	person noun
+zawod	der Beruf / die Berufe	thing noun
+przypadek	der Zufall / die Zufälle	thing noun
+dom	das Haus / die Häuser	thing noun
+kanapka	das Brötchen / die Brötchen	thing noun
+zielony	grün	adjective
+gruby	dick	adjective
+swietny	toll	adjective
+glupi	dumm	adjective

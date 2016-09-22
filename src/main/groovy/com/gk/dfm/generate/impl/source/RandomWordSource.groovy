@@ -26,9 +26,9 @@ class RandomWordSource {
             Determiner.mixedDeclensionDeterminers())
 
     private static final Map<DeterminerGroup, Double> DETERMINER_GROUP_TO_CHANCE = [
-            (STRONG_DECLENSION_WITHOUT_ARTICLE_DETERMINERS): 0.0,
-            (STRONG_DECLENSION_PLURAL_NUMBER_DETERMINERS)  : 0.2,
-            (WEAK_DECLENSION_TYPES_DETERMINERS)            : 0.33,
+            (STRONG_DECLENSION_WITHOUT_ARTICLE_DETERMINERS): 0.15,
+            (STRONG_DECLENSION_PLURAL_NUMBER_DETERMINERS)  : 0.15,
+            (WEAK_DECLENSION_TYPES_DETERMINERS)            : 0.35,
             (MIXED_DECLENSION_TYPES_DETERMINERS)           : null
     ]
 

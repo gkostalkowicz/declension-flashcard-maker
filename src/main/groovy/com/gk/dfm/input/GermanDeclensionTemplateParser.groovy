@@ -51,7 +51,7 @@ class GermanDeclensionTemplateParser {
         switch (objectClassString) {
             case "p":
                 return ObjectClass.PERSON;
-            case "d":
+            case "t":
                 return ObjectClass.THING;
             case "a":
                 return ObjectClass.ANYTHING;

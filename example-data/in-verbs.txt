@@ -1,22 +1,7 @@
-pl expression outline	de infinitive	de infix	de declension template	notes 1	notes 2
-zatrzymac - kogo? X	anhalten		X(4,p)	A	
-wolac - kogo? X	anrufen		X(4,p)	A	
-odpowiadac - komu? X - na co? Y	antworten		X(3,p) auf Y(4,d)	D+R	
-zazdroscic - komu? X	beneiden		X(4,p)	A	
-radzic - komu? X	beraten		X(4,p)	A	
-odwiedzac - kogo? X	besuchen		X(4,p)	A	
-prosiæ - kogo? X - o co? Y	bitten		X(4,p) um Y(4,d)	A+R	
-przyniesc - komu? X - co? Y 	bringen 		X(3,p) Y(4,d)	PD	
-dziekowac - komu? X - za co? Y	danken		X(3,p) für Y(4,a)	D+R	
-zapraszac - kogo? X - do jakiego miejsca? Y	einladen		X(4,p) in Y(4,d)	A+R	
-zapraszac - kogo? X - na jaka rzecz? Y	einladen		X(4,p) zu Y(3,d)	A+R	
-podazac - za kim/za czym? X	folgen		X(3,a)	D	
-pytac - kogo? X - o co? Y	fragen		X(4,p) nach Y(3,a)	A+R	
-wierzyc - komu? X	glauben		X(3,p)	D	
-gratulowac - komu? X - z okazji czego? Y	gratulieren		X(3,p) zu Y(3,d)	D+R	
-poslubic - kogo? X	heiraten		X(4,p)	A	
-pomagac - komu? X - w czym? Y	helfen		X(3,p) bei Y(3,d)	D+R	
-kazac, pozwalac - komu? X	lassen		X(4,p)	A	
-przeszkadzac - komu? X	stören		X(4,p)	A	
-przerywac - komu? X	unterbrechen		X(4,p)	A	
-wybaczac - komu? X	verzeihen		X(3,p)	D	
+pl expression outline	de infinitive	de infix	de declension template
+dziekowac - komu? X - za co? Y	danken		X(3,p) für Y(4,a)
+pomagac - komu? X - w czym? Y	helfen		X(3,p) bei Y(3,t)
+przeszkadzac - komu? X	stören		X(4,p)
+podazac - za kim/za czym? X	folgen		X(3,a)
+wybaczac - komu? X	verzeihen		X(3,p)
+przyniesc - komu? X - co? Y 	bringen 		X(3,p) Y(4,t)

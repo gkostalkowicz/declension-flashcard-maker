@@ -12,8 +12,8 @@ import com.gk.dfm.generate.impl.source.RandomWordSource
 class RandomExpressionGenerator {
 
     private static final Map<ExpressionType, Double> EXPRESSION_TYPE_TO_PROBABILITY = [
-            //(ExpressionType.NOMINATIVE_EXPRESSION) : 0.25,
-            //(ExpressionType.PREPOSITION_EXPRESSION): 0.75,
+            (ExpressionType.NOMINATIVE_EXPRESSION) : 0.2,
+            (ExpressionType.PREPOSITION_EXPRESSION): 0.2,
             (ExpressionType.SENTENCE)              : null
     ]
 

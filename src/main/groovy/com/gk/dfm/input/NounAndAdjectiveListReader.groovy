@@ -28,10 +28,10 @@ class NounAndAdjectiveListReader {
     private static final String POLISH_COLUMN = "polish"
     private static final String GERMAN_COLUMN = "german"
     private static final String TAGS_COLUMN = "tags"
-    private static final String NOUN_TAG = "rzeczownik"
+    private static final String NOUN_TAG = "noun"
     private static final String PERSON_TAG = "person"
-    private static final String THING_TAG = "ding"
-    private static final String ADJECTIVE_TAG = "przymiotnik"
+    private static final String THING_TAG = "thing"
+    private static final String ADJECTIVE_TAG = "adjective"
     private static final String ADJECTIVE_VERSIONS_SEPARATOR = ","
 
     private NounDeclensionRepository nounDeclensionRepository
