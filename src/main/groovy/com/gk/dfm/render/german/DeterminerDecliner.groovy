@@ -363,7 +363,7 @@ class DeterminerDecliner {
             def declinedDeterminer = DECLENSION_MAP[determiner][objectCase][objectNumberAndGender]
             if (declinedDeterminer == null) {
                 throw new RuntimeException("Determiner $determiner has no grammatical form for $objectNumberAndGender" +
-                        " and $objectCase")
+                        " object and number and $objectCase case")
             }
             return Optional.of(declinedDeterminer)
         }

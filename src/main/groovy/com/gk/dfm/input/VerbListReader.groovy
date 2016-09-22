@@ -81,12 +81,12 @@ class VerbListReader {
     }
 
     private static String columnOrNull(String column) {
-        // TODO zamiane na null powinien robic jackson, nie mam teraz internetu
+        // TODO should be converted to null by jackson
         exists(column) ? column : null
     }
 
     private static boolean exists(String column) {
-        // TODO zamiane na null powinien robic jackson, nie mam teraz internetu
+        // TODO should be converted to null by jackson
         !column.empty
     }
 

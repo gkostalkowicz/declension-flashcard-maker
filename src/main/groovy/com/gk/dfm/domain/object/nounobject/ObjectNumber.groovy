@@ -5,6 +5,17 @@ package com.gk.dfm.domain.object.nounobject
  */
 enum ObjectNumber {
 
-    SINGULAR, PLURAL
+    SINGULAR, PLURAL;
+
+    ObjectNumber inverted() {
+        switch (this) {
+            case SINGULAR:
+                return PLURAL
+            case PLURAL:
+                return SINGULAR
+            default:
+                throw new RuntimeException("Unknown object number: $this")
+        }
+    }
 
 }

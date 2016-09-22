@@ -11,11 +11,10 @@ import com.gk.dfm.generate.impl.source.RandomWordSource
  */
 class RandomExpressionGenerator {
 
-    private static final double PICK_NOMINATIVE_EXPRESSION_CHANCE = 0.5
-    private static final double PICK_PREPOSITION_EXPRESSION_CHANCE = 0.5
-    private static final EXPRESSION_TYPE_TO_PROBABILITY = [
-            (ExpressionType.NOMINATIVE_EXPRESSION) : PICK_NOMINATIVE_EXPRESSION_CHANCE,
-            (ExpressionType.PREPOSITION_EXPRESSION): PICK_PREPOSITION_EXPRESSION_CHANCE
+    private static final Map<ExpressionType, Double> EXPRESSION_TYPE_TO_PROBABILITY = [
+            //(ExpressionType.NOMINATIVE_EXPRESSION) : 0.25,
+            //(ExpressionType.PREPOSITION_EXPRESSION): 0.75,
+            (ExpressionType.SENTENCE)              : null
     ]
 
     private ExpressionGenerator generator
@@ -25,8 +24,7 @@ class RandomExpressionGenerator {
     }
 
     Expression generateExpression() {
-        def expressionType = RandomUtil.pickElementWithProbability(EXPRESSION_TYPE_TO_PROBABILITY,
-                ExpressionType.SENTENCE)
+        def expressionType = RandomUtil.pickElementWithProbability(EXPRESSION_TYPE_TO_PROBABILITY)
         switch (expressionType) {
             case ExpressionType.SENTENCE:
                 return generator.generateSentence()

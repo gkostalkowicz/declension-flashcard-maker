@@ -19,7 +19,7 @@ import com.gk.dfm.render.polish.PolishRenderer
  */
 class DeclensionFlashcardMaker {
 
-    private static final FLASHCARD_CNT = 1000
+    private static final FLASHCARD_CNT = 100
     private static final OUTPUT_COLUMN_SEPARATOR = "\t"
 
     private RandomExpressionGenerator expressionGenerator
@@ -32,7 +32,7 @@ class DeclensionFlashcardMaker {
 
     private DeclensionFlashcardMaker(String[] args) {
         def verbsFilename = args[0]
-        def nounsFilename = args[1]
+        def nounsAndAdjectivesFilename = args[1]
         def verbRepositoryFilename = args[2]
         def nounRepositoryFilename = args[3]
         def adjectiveRepositoryFilename = args[4]
@@ -48,7 +48,7 @@ class DeclensionFlashcardMaker {
                     adjectiveDeclensionRepository)
 
             randomWordSource.setVerbs(verbListReader.readVerbs(verbsFilename))
-            def nounsAndAdjectives = nounAndAdjectiveListReader.readNounsAndAdjectives(nounsFilename)
+            def nounsAndAdjectives = nounAndAdjectiveListReader.readNounsAndAdjectives(nounsAndAdjectivesFilename)
             randomWordSource.setNouns(nounsAndAdjectives.nouns)
             randomWordSource.setAdjectives(nounsAndAdjectives.adjectives)
 

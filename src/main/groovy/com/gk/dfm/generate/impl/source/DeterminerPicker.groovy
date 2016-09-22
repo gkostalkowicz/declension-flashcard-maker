@@ -10,30 +10,43 @@ import com.google.common.collect.Table
  */
 class DeterminerPicker {
 
-    private Table<ObjectNumber, Boolean, List<Determiner>> determinerListTable = HashBasedTable.create()
+    private Table<DeterminerGroup, ObjectNumber, List<Determiner>> determinerListTable = HashBasedTable.create()
 
-    DeterminerPicker() {
-        def determiners = Determiner.values()
-        determinerListTable.put(ObjectNumber.SINGULAR, false,
-                determiners.findAll { it -> it.hasSingularForm && !it.possessivePronoun})
-        determinerListTable.put(ObjectNumber.SINGULAR, true,
-                determiners.findAll { it -> it.hasSingularForm && it.possessivePronoun})
-        determinerListTable.put(ObjectNumber.PLURAL, false,
-                determiners.findAll { it -> it.hasPluralForm && !it.possessivePronoun})
-        determinerListTable.put(ObjectNumber.PLURAL, true,
-                determiners.findAll { it -> it.hasPluralForm && it.possessivePronoun})
+    DeterminerPicker(Map<DeterminerGroup, Double> determinerGroupToChance) {
+        for (def group : determinerGroupToChance.keySet()) {
+            determinerListTable.put(group, ObjectNumber.SINGULAR,
+                    group.determiners.findAll({ it.hasSingularForm }))
+            determinerListTable.put(group, ObjectNumber.PLURAL,
+                    group.determiners.findAll({ it.hasPluralForm }))
+        }
     }
 
-    Determiner pick(ObjectNumber number, boolean possessivePronoun) {
-        def list = determinerListTable.get(number, possessivePronoun)
+    PickedDeterminer pick(DeterminerGroup group, ObjectNumber suggestedNumber) {
+        def list = determinerListTable.get(group, suggestedNumber)
         if (list == null) {
-            throw new RuntimeException("Unknown combination of number '$number' and possesive pronoun" +
-                    " '$possessivePronoun'")
-        } else if (list.empty) {
-            throw new RuntimeException("No determiners for number '$number' and possesive pronoun" +
-                    " '$possessivePronoun'")
+            throw new RuntimeException("Unknown combination of number '$suggestedNumber' and determiner group" +
+                    " '$group'")
+        } else if (!list.empty) {
+            return new PickedDeterminer(RandomUtil.pickElement(list), suggestedNumber)
+        } else {
+            def invertedNumber = suggestedNumber.inverted()
+            def invertedNumberList = determinerListTable.get(group, invertedNumber)
+            if (!invertedNumberList.empty) {
+                return new PickedDeterminer(RandomUtil.pickElement(invertedNumberList), invertedNumber)
+            } else {
+                throw new RuntimeException("Empty determiner group: $group")
+            }
         }
-        return RandomUtil.pickElement(list)
+    }
+
+    private static class PickedDeterminer {
+        Determiner determiner
+        ObjectNumber number
+
+        PickedDeterminer(Determiner determiner, ObjectNumber number) {
+            this.determiner = determiner
+            this.number = number
+        }
     }
 
 }

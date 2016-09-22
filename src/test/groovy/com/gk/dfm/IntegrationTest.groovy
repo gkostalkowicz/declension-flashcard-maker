@@ -54,7 +54,7 @@ class IntegrationTest {
         def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (określony) pies)"
+        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (der - Hund))"
         assert germanRenderer.renderSentence(sentence) == "ich habe den Hund"
     }
 
@@ -70,7 +70,7 @@ class IntegrationTest {
         def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (-) pies)"
+        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (. - Hund))"
         assert germanRenderer.renderSentence(sentence) == "ich habe Hund"
     }
 
@@ -87,7 +87,7 @@ class IntegrationTest {
         def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (określony) pies)"
+        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (der - Hund))"
         assert germanRenderer.renderSentence(sentence) == "ich habe den Hund auf"
     }
 
@@ -103,7 +103,7 @@ class IntegrationTest {
         def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (określony) pies)"
+        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (der - Hund))"
         assert germanRenderer.renderSentence(sentence) == "ich habe auch den Hund"
     }
 
@@ -120,7 +120,7 @@ class IntegrationTest {
         def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (wiele) (określony) pies)"
+        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (der - (wiele) - Hund))"
         assert germanRenderer.renderSentence(sentence) == "ich habe die Hunde"
     }
 
@@ -143,7 +143,7 @@ class IntegrationTest {
         def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert polishRenderer.renderSentence(sentence) == "ja, ide do (gdzie? (określony) kino)"
+        assert polishRenderer.renderSentence(sentence) == "ja, ide do (gdzie? (der - Kino))"
         assert germanRenderer.renderSentence(sentence) == "ich gehe ins Kino"
     }
 
@@ -165,7 +165,7 @@ class IntegrationTest {
         def sentence = generateSentence(subject, verb, object)
 
         then:
-        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (określony) ciemny pies)"
+        assert polishRenderer.renderSentence(sentence) == "ja, miec (co? (der - dunkel - Hund))"
         assert germanRenderer.renderSentence(sentence) == "ich habe den dunklen Hund"
     }
 
@@ -195,7 +195,7 @@ class IntegrationTest {
         def expression = generator.generateNominativeExpression()
 
         then:
-        assert polishRenderer.renderNominativeExpression(expression) == "(określony) pies"
+        assert polishRenderer.renderNominativeExpression(expression) == "(der - Hund)"
         assert germanRenderer.renderNominativeExpression(expression) == "der Hund"
     }
 
@@ -229,7 +229,7 @@ class IntegrationTest {
         def expression = generator.generatePrepositionExpression()
 
         then:
-        assert polishRenderer.renderPrepositionExpression(expression) == "z(czymś/kimś), (określony) pies"
+        assert polishRenderer.renderPrepositionExpression(expression) == "mit (der - Hund)"
         assert germanRenderer.renderPrepositionExpression(expression) == "mit dem Hund"
     }
 
