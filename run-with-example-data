@@ -1,0 +1,11 @@
+#!/bin/sh
+
+DIR="example-data"
+A="$DIR/in-verbs.txt"
+B="$DIR/in-nouns+adjectives.txt"
+C="$DIR/db-czasowniki.txt"
+D="$DIR/db-rzeczowniki.txt"
+E="$DIR/db-przymiotniki.txt"
+F="$DIR/out.txt"
+
+./gradlew run -PappArgs="['$A', '$B', '$C', '$D', '$E', '$F']"

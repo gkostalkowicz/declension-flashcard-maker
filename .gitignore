@@ -1,3 +1,6 @@
 .gradle
 .idea
 build
+dfm.log
+example-data/db-*
+example-data/out.txt
