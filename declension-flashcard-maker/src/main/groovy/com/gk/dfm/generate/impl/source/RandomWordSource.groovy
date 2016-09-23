@@ -33,7 +33,7 @@ class RandomWordSource {
     ]
 
     private static final double PICK_PLURAL_OBJECT_NUMBER_CHANCE = 0.35
-    private static final double ADD_ADJECTIVE_TO_NOUN_CHANCE = 0.0
+    private static final double ADD_ADJECTIVE_TO_NOUN_CHANCE = 0.5
 
     private NounPicker nounPicker
     private DeterminerPicker determinerPicker = new DeterminerPicker(DETERMINER_GROUP_TO_CHANCE)
