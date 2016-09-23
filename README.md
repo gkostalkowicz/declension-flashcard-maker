@@ -52,7 +52,11 @@ wy, pomagac - komu? (kein - (wiele) - toll - Frau) - w czym? (solcher - dumm - B
 
 Once again – without the technical knowledge, it will be hard for you to use this application. If you're not scared away yet, come along.
 
-The easiest way to start is to try the example data. Inside `example-data` directory, there are two files `in-nouns+adjectives.txt` and `in-verbs.txt` that contains words used to generate sentences. In the shell run:
+The easiest way to start is to try the example data. Inside `example-data` directory, there are two files `in-nouns+adjectives.txt` and `in-verbs.txt` that contains words used to generate sentences. On Windows command line run:
+
+    ./run-with-example-data.bat
+
+On Linux:
 
     ./run-with-example-data
 
